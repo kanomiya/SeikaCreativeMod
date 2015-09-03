@@ -1,0 +1,16 @@
+[
+{
+	"modid": "seikacreativemod",
+	"name": "Seika Creative Mod",
+	"description": "Seika Creative Mod",
+	"version": "0.53b",
+	"mcversion": "1.8",
+	"url": "http://kanomiya.com/",
+	"updateUrl": "",
+	"authors": ["Kanomiya"],
+	"credits": "Kanomiya",
+	"logoFile": "",
+	"screenshots": [],
+	"dependencies": []
+}
+]

@@ -1,0 +1,18 @@
+﻿###-- Japanese --###
+tile.blockPreparation.name=整地機
+tile.blockFill.name=埋立機
+tile.blockEditMachine.name=編集機
+tile.blockSuperSponge.name=スーパースポンジ
+tile.blockBedrockLight.name=岩盤の照明
+tile.blockButtonBedrock.name=岩盤のボタン
+tile.blockBedrockLever.name=岩盤のレバー
+tile.blockBedrockGlass.name=岩盤のガラス
+item.itemCommandItem_0.name=コマンドの杖
+item.itemCommandItem_1.name=コマンドの本
+item.itemEntityKiller.name=生体消去の杖
+item.itemEntityPicker.name=生体捕獲の杖
+item.itemWorldGen_0.name=木生成の杖
+item.itemPipette.name=ピペット
+item.itemPosWand.name=座標記録の杖
+item.itemBedrockDoor.name=岩盤のドア
+entity.entitySandBag.name=サンドバッグ

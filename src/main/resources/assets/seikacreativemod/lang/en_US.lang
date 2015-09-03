@@ -1,0 +1,18 @@
+###--- English ---###
+tile.blockPreparation.name=Preparation Machine
+tile.blockFill.name=Filler
+tile.blockEditMachine.name=Editer
+tile.blockSuperSponge.name=Super Sponge
+tile.blockBedrockLight.name=Bedrock Light
+tile.blockButtonBedrock.name=Bedrock Button
+tile.blockBedrockLever.name=Bedrock Lever
+tile.blockBedrockGlass.name=Bedrock Glass
+item.itemCommandItem_0.name=Command Wand
+item.itemCommandItem_1.name=Command Book
+item.itemEntityKiller.name=Entity Killer
+item.itemEntityPicker.name=Entity Picker
+item.itemWorldGen.name=Trees Spawner
+item.itemPipette.name=Pipette
+item.itemPosWand.name=Position Recorder
+item.itemBedrockDoor.name=Bedrock Door
+entity.entitySandBag.name=SandBag
