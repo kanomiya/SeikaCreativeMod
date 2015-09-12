@@ -1,10 +1,11 @@
 ###--- English ---###
+itemGroup.seikacreativemod=Seika Creative Mod
 tile.blockPreparation.name=Preparation Machine
 tile.blockFill.name=Filler
 tile.blockEditMachine.name=Editer
 tile.blockSuperSponge.name=Super Sponge
 tile.blockBedrockLight.name=Bedrock Light
-tile.blockButtonBedrock.name=Bedrock Button
+tile.blockBedrockButton.name=Bedrock Button
 tile.blockBedrockLever.name=Bedrock Lever
 tile.blockBedrockGlass.name=Bedrock Glass
 item.itemCommandItem_0.name=Command Wand
