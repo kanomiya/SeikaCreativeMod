@@ -1,9 +1,5 @@
 package com.kanomiya.mcmod.seikacreativemod.tileentity;
 
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.gui.GuiHandler;
-import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
-
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemStack;
@@ -11,7 +7,13 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 
-public class TileEntityEditMachine extends TileEntityRSMachineWithInventory {
+import com.kanomiya.mcmod.core.tileentity.IRedstoneMachine;
+import com.kanomiya.mcmod.core.tileentity.ITileEntityWithInventory;
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.gui.GuiHandler;
+import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
+
+public class TileEntityEditMachine extends ITileEntityWithInventory implements IRedstoneMachine {
 	public static final int MODE_REPLACE = 0;
 	public static final int MODE_FILL = 1;
 	public static final int MODE_BOX = 2;
@@ -26,6 +28,8 @@ public class TileEntityEditMachine extends TileEntityRSMachineWithInventory {
 	protected int mode;
 	protected String[] info;
 	protected boolean canLaunch;
+	protected boolean previousRedstoneState;
+
 
 	public TileEntityEditMachine() {
 		super();
@@ -289,6 +293,21 @@ public class TileEntityEditMachine extends TileEntityRSMachineWithInventory {
 	public void closeInventory(EntityPlayer player) {
 		super.closeInventory(player);
 		// info = null;
+	}
+
+
+
+	/**
+	* @inheritDoc
+	*/
+	@Override public boolean isPrevPowered() { return previousRedstoneState; }
+
+
+	/**
+	* @inheritDoc
+	*/
+	@Override public void setPrevRSState(boolean powered) {
+		previousRedstoneState = powered;
 	}
 
 }

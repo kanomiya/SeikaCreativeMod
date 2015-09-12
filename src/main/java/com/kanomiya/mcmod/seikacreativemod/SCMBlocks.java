@@ -1,5 +1,11 @@
 package com.kanomiya.mcmod.seikacreativemod;
 
+import net.minecraftforge.fml.common.event.FMLInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
+import com.kanomiya.mcmod.core.util.GameRegistryUtils;
 import com.kanomiya.mcmod.seikacreativemod.block.BlockBedrockButton;
 import com.kanomiya.mcmod.seikacreativemod.block.BlockBedrockDoor;
 import com.kanomiya.mcmod.seikacreativemod.block.BlockBedrockGlass;
@@ -12,18 +18,48 @@ import com.kanomiya.mcmod.seikacreativemod.block.BlockSuperSponge;
 import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityEditMachine;
 import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityFill;
 import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityPreparation;
-import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityRSMachine;
-import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityRedstoneMachine;
 
-import net.minecraft.block.Block;
-import net.minecraft.client.Minecraft;
-import net.minecraft.client.renderer.ItemModelMesher;
-import net.minecraft.client.resources.model.ModelBakery;
-import net.minecraft.client.resources.model.ModelResourceLocation;
-import net.minecraft.item.Item;
-import net.minecraftforge.fml.common.registry.GameRegistry;
 
-public enum SCMBlock {
+public class SCMBlocks {
+	public static BlockPreparation blockPreparation;
+	public static BlockFill blockFill;
+	public static BlockSuperSponge blockSuperSponge;
+	public static BlockBedrockLight blockBedrockLight;
+	public static BlockBedrockGlass blockBedrockGlass;
+	public static BlockBedrockLever blockBedrockLever;
+	public static BlockBedrockButton blockBedrockButton;
+	public static BlockBedrockDoor blockBedrockDoor;
+	public static BlockEditMachine blockEditMachine;
+	// public static Block block;
+
+
+	public static void preInit(FMLPreInitializationEvent event) {
+		final boolean client = event.getSide().isClient();
+
+		GameRegistryUtils.registerBlock(blockPreparation = new BlockPreparation(), "blockPreparation", client);
+		GameRegistryUtils.registerBlock(blockFill = new BlockFill(), "blockFill", client);
+		GameRegistryUtils.registerBlock(blockSuperSponge = new BlockSuperSponge(), "blockSuperSponge", client);
+		GameRegistryUtils.registerBlock(blockBedrockLight = new BlockBedrockLight(), "blockBedrockLight", client);
+		GameRegistryUtils.registerBlock(blockBedrockGlass = new BlockBedrockGlass(), "blockBedrockGlass", client);
+		GameRegistryUtils.registerBlock(blockBedrockLever = new BlockBedrockLever(), "blockBedrockLever", client);
+		GameRegistryUtils.registerBlock(blockBedrockButton = new BlockBedrockButton(), "blockBedrockButton", client);
+		GameRegistryUtils.registerBlock(blockBedrockDoor = new BlockBedrockDoor(), "blockBedrockDoor", client);
+		GameRegistryUtils.registerBlock(blockEditMachine = new BlockEditMachine(), "blockEditMachine", client);
+		// GameRegistryUtils.registerBlock(block = new Block(), "block", client);
+
+		// TileEntity
+		GameRegistry.registerTileEntity(TileEntityFill.class, "tileentityFill");
+		GameRegistry.registerTileEntity(TileEntityPreparation.class, "tileentityPreparation");
+
+		GameRegistry.registerTileEntity(TileEntityEditMachine.class, "tileentityEditMachine");
+
+	}
+
+	public static void init(FMLInitializationEvent event) {  }
+	public static void postInit(FMLPostInitializationEvent event) {  }
+
+
+	/*
 	// sample(new SampleBlock(), "blockSample", "blockSample0"),
 	preparation(new BlockPreparation(), "blockPreparation"),
 	fill(new BlockFill(), "blockFill"),
@@ -88,4 +124,6 @@ public enum SCMBlock {
 		GameRegistry.registerTileEntity(TileEntityRSMachine.class, "tileentityRSMachine");
 		GameRegistry.registerTileEntity(TileEntityEditMachine.class, "tileentityEditMachine");
 	}
+
+	*/
 }

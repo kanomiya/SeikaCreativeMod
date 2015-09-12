@@ -1,4 +1,4 @@
-package com.kanomiya.mcmod.seikacreativemod.tileentity;
+package com.kanomiya.mcmod.core.tileentity;
 
 import net.minecraft.block.BlockChest;
 import net.minecraft.entity.player.EntityPlayer;
@@ -8,16 +8,21 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.network.NetworkManager;
 import net.minecraft.network.Packet;
 import net.minecraft.network.play.server.S35PacketUpdateTileEntity;
+import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.ChatComponentTranslation;
 import net.minecraft.util.IChatComponent;
 
-public abstract class TileEntityRSMachineWithInventory extends TileEntityRSMachine implements IInventory {
+/**
+ * @author Kanomiya
+ *
+ */
+public abstract class ITileEntityWithInventory extends TileEntity implements IInventory {
 	protected ItemStack[] items;
-    protected String customName;
-    protected int numPlayersUsing;
+	protected String customName;
+	protected int numPlayersUsing;
 
-	public TileEntityRSMachineWithInventory() {
+	public ITileEntityWithInventory() {
 		super();
 		items = new ItemStack[getSizeInventory()];
 	}
@@ -56,6 +61,7 @@ public abstract class TileEntityRSMachineWithInventory extends TileEntityRSMachi
 
 	}
 
+
 	// --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
 	// --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
 	// IInventory's Methods
@@ -68,7 +74,7 @@ public abstract class TileEntityRSMachineWithInventory extends TileEntityRSMachi
 	public void setCustomName(String name) { customName = name; }
 
 	@Override
-	 public IChatComponent getDisplayName() {
+	public IChatComponent getDisplayName() {
 		return hasCustomName() ? new ChatComponentText(getName()) : new ChatComponentTranslation(getName(), new Object[0]);
 	}
 
@@ -163,8 +169,8 @@ public abstract class TileEntityRSMachineWithInventory extends TileEntityRSMachi
 	@Override
 	public void clear() {
 		for (int i = 0; i < items.length; ++i) {
-            items[i] = null;
-        }
+			items[i] = null;
+		}
 	}
 
 	// --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
@@ -173,15 +179,14 @@ public abstract class TileEntityRSMachineWithInventory extends TileEntityRSMachi
 	// --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
 	// --*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--*--
 
-	@Override
-	public Packet getDescriptionPacket() {
-        NBTTagCompound nbtTagCompound = new NBTTagCompound();
-        writeToNBT(nbtTagCompound);
-        return new S35PacketUpdateTileEntity(pos, 1, nbtTagCompound);
+	@Override public Packet getDescriptionPacket() {
+		NBTTagCompound nbtTagCompound = new NBTTagCompound();
+		writeToNBT(nbtTagCompound);
+		return new S35PacketUpdateTileEntity(pos, 1, nbtTagCompound);
 	}
 
 	@Override
-    public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
-        readFromNBT(pkt.getNbtCompound());
-    }
+	public void onDataPacket(NetworkManager net, S35PacketUpdateTileEntity pkt) {
+		readFromNBT(pkt.getNbtCompound());
+	}
 }

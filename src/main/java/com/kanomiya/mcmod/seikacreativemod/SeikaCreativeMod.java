@@ -4,21 +4,23 @@ import java.io.File;
 
 import net.minecraft.client.settings.GameSettings;
 import net.minecraft.client.settings.GameSettings.Options;
+import net.minecraft.creativetab.CreativeTabs;
+import net.minecraft.item.Item;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.Mod.EventHandler;
-import net.minecraftforge.fml.common.SidedProxy;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLServerStartingEvent;
 import net.minecraftforge.fml.common.network.NetworkRegistry;
+import net.minecraftforge.fml.relauncher.Side;
+import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.apache.logging.log4j.Logger;
 
 import com.kanomiya.mcmod.seikacreativemod.command.CommandKillPlus;
 import com.kanomiya.mcmod.seikacreativemod.command.CommandSchematic;
 import com.kanomiya.mcmod.seikacreativemod.gui.GuiHandler;
-import com.kanomiya.mcmod.seikacreativemod.proxy.CommonProxy;
 import com.kanomiya.mcmod.seikacreativemod.proxy.PacketHandler;
 
 @Mod(modid = SeikaCreativeMod.MODID, name = SeikaCreativeMod.MODID, version = SeikaCreativeMod.VERSION)
@@ -31,10 +33,12 @@ public class SeikaCreativeMod {
 	@Mod.Instance("seikacreativemod")
 	public static SeikaCreativeMod instance;
 
-	@SidedProxy(clientSide="com.zashiki.kanomiya.seikacreativemod.proxy.ClientProxy",
-				serverSide="com.zashiki.kanomiya.seikacreativemod.proxy.CommonProxy")
-	public static CommonProxy proxy;
-	public static final SeikaCreativeTab tabSeika = new SeikaCreativeTab();
+	public static final CreativeTabs tabSeika = new CreativeTabs(MODID) {
+		@Override @SideOnly(Side.CLIENT)
+		public Item getTabIconItem() {
+			return Item.getItemFromBlock(SCMBlocks.blockFill);
+		}
+	};
 
 	public static boolean ENABLEDBRIGHTNESS;
 
@@ -47,11 +51,9 @@ public class SeikaCreativeMod {
 		mkDir(SCHEMATICSPATH);
 		SCMConfig.init(event.getSuggestedConfigurationFile());
 
-		SCMBlock.registerBlocks();
-		SCMBlock.registerTileEntities();
-
-		SCMItem.registerItems();
-		SCMEntity.registerEntity();
+		SCMBlocks.preInit(event);
+		SCMItems.preInit(event);
+		SCMEntities.preInit(event);
 
 
 
@@ -65,13 +67,9 @@ public class SeikaCreativeMod {
 			gamma.setValueMax(10.0f);
 		}
 
-		if (event.getSide().isClient()) {
-			SCMBlock.registerModels();
-			SCMItem.registerModels();
-		}
-
-		// これ重要！ 「モデル登録」はこっち！
-		proxy.registerRenderers();
+		SCMBlocks.init(event);
+		SCMItems.init(event);
+		SCMEntities.init(event);
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 		PacketHandler.init();
@@ -79,6 +77,9 @@ public class SeikaCreativeMod {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
+		SCMBlocks.postInit(event);
+		SCMItems.postInit(event);
+		SCMEntities.postInit(event);
 
 	}
 
