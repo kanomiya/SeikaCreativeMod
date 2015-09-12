@@ -1,4 +1,4 @@
-package com.kanomiya.mcmod.seikacreativemod.proxy;
+package com.kanomiya.mcmod.seikacreativemod.network;
 
 import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityEditMachine;
 

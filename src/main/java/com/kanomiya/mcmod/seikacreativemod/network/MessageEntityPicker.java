@@ -1,4 +1,4 @@
-package com.kanomiya.mcmod.seikacreativemod.proxy;
+package com.kanomiya.mcmod.seikacreativemod.network;
 
 import io.netty.buffer.ByteBuf;
 import net.minecraft.entity.player.EntityPlayerMP;

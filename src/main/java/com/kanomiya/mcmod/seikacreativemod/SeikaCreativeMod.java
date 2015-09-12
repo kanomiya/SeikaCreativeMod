@@ -21,7 +21,7 @@ import org.apache.logging.log4j.Logger;
 import com.kanomiya.mcmod.seikacreativemod.command.CommandKillPlus;
 import com.kanomiya.mcmod.seikacreativemod.command.CommandSchematic;
 import com.kanomiya.mcmod.seikacreativemod.gui.GuiHandler;
-import com.kanomiya.mcmod.seikacreativemod.proxy.PacketHandler;
+import com.kanomiya.mcmod.seikacreativemod.network.PacketHandler;
 
 @Mod(modid = SeikaCreativeMod.MODID, name = SeikaCreativeMod.MODID, version = SeikaCreativeMod.VERSION)
 public class SeikaCreativeMod {

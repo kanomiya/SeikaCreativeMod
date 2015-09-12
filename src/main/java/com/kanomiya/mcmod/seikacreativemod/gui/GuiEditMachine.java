@@ -11,8 +11,8 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.lwjgl.opengl.GL11;
 
-import com.kanomiya.mcmod.seikacreativemod.proxy.MessageEditMachineMode;
-import com.kanomiya.mcmod.seikacreativemod.proxy.PacketHandler;
+import com.kanomiya.mcmod.seikacreativemod.network.MessageEditMachineMode;
+import com.kanomiya.mcmod.seikacreativemod.network.PacketHandler;
 import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityEditMachine;
 
 

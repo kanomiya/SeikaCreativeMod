@@ -3,8 +3,8 @@ package com.kanomiya.mcmod.seikacreativemod.item;
 import java.util.List;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.proxy.MessageEntityPicker;
-import com.kanomiya.mcmod.seikacreativemod.proxy.PacketHandler;
+import com.kanomiya.mcmod.seikacreativemod.network.MessageEntityPicker;
+import com.kanomiya.mcmod.seikacreativemod.network.PacketHandler;
 import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
 
 import net.minecraft.entity.Entity;
