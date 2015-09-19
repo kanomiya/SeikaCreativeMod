@@ -18,19 +18,19 @@ import net.minecraftforge.fml.relauncher.SideOnly;
 
 import org.apache.logging.log4j.Logger;
 
+import com.kanomiya.mcmod.kanomiyacore.KanomiyaCore;
 import com.kanomiya.mcmod.seikacreativemod.command.CommandKillPlus;
 import com.kanomiya.mcmod.seikacreativemod.command.CommandSchematic;
 import com.kanomiya.mcmod.seikacreativemod.gui.GuiHandler;
 import com.kanomiya.mcmod.seikacreativemod.network.PacketHandler;
 
-@Mod(modid = SeikaCreativeMod.MODID, name = SeikaCreativeMod.MODID, version = SeikaCreativeMod.VERSION)
+@Mod(modid = SeikaCreativeMod.MODID)
 public class SeikaCreativeMod {
 	public static final String MODID = "seikacreativemod";
-	public static final String VERSION = "0.53b";
 
 	public static final String SCHEMATICSPATH = "schematics";
 
-	@Mod.Instance("seikacreativemod")
+	@Mod.Instance(MODID)
 	public static SeikaCreativeMod instance;
 
 	public static final CreativeTabs tabSeika = new CreativeTabs(MODID) {
@@ -44,16 +44,19 @@ public class SeikaCreativeMod {
 
 	public static Logger logger;
 
+	public static KanomiyaCore core;
+
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event) {
 		logger = event.getModLog();
+		core = new KanomiyaCore(MODID, instance);
 
 		mkDir(SCHEMATICSPATH);
-		SCMConfig.init(event.getSuggestedConfigurationFile());
+		SCMConfig.preInit(event, core);
 
-		SCMBlocks.preInit(event);
-		SCMItems.preInit(event);
-		SCMEntities.preInit(event);
+		SCMBlocks.preInit(event, core);
+		SCMItems.preInit(event, core);
+		SCMEntities.preInit(event, core);
 
 
 
@@ -67,9 +70,9 @@ public class SeikaCreativeMod {
 			gamma.setValueMax(10.0f);
 		}
 
-		SCMBlocks.init(event);
-		SCMItems.init(event);
-		SCMEntities.init(event);
+		SCMBlocks.init(event, core);
+		SCMItems.init(event, core);
+		SCMEntities.init(event, core);
 
 		NetworkRegistry.INSTANCE.registerGuiHandler(this, new GuiHandler());
 		PacketHandler.init();
@@ -77,9 +80,9 @@ public class SeikaCreativeMod {
 
 	@EventHandler
 	public void postInit(FMLPostInitializationEvent event) {
-		SCMBlocks.postInit(event);
-		SCMItems.postInit(event);
-		SCMEntities.postInit(event);
+		SCMBlocks.postInit(event, core);
+		SCMItems.postInit(event, core);
+		SCMEntities.postInit(event, core);
 
 	}
 

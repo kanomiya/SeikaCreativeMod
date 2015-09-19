@@ -4,7 +4,8 @@ import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
 import net.minecraft.tileentity.TileEntity;
 
-import com.kanomiya.mcmod.core.tileentity.IRedstoneMachine;
+import com.kanomiya.mcmod.kanomiyacore.tileentity.IRedstoneMachine;
+
 
 public class TileEntityFill extends TileEntity implements IRedstoneMachine {
 	private IBlockState putState;

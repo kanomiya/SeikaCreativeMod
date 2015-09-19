@@ -1,16 +1,21 @@
 [
 {
+	"modinfoversion": 2,
 	"modid": "seikacreativemod",
 	"name": "Seika Creative Mod",
 	"description": "Seika Creative Mod",
-	"version": "0.53b",
+	"version": "0.54",
 	"mcversion": "1.8",
 	"url": "http://kanomiya.com/",
 	"updateUrl": "",
-	"authors": ["Kanomiya"],
-	"credits": "Kanomiya",
+	"authorList": ["Kanomiya"],
+	"credits": "",
 	"logoFile": "",
 	"screenshots": [],
-	"dependencies": []
+	"parent": "",
+	"requiredMods": ["kanomiyacore"],
+	"dependencies": [],
+	"dependants": [],
+	"useDependencyInformation": "true"
 }
 ]

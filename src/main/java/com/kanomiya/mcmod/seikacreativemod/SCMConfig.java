@@ -1,16 +1,16 @@
 package com.kanomiya.mcmod.seikacreativemod;
 
-import java.io.File;
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 
+import com.kanomiya.mcmod.kanomiyacore.KanomiyaCore;
 import com.kanomiya.mcmod.seikacreativemod.block.BlockFill;
 import com.kanomiya.mcmod.seikacreativemod.block.BlockSuperSponge;
 
-import net.minecraftforge.common.config.Configuration;
-
 public class SCMConfig {
 
-	public static void init(File configfile) {
-		Configuration config = new Configuration(configfile);
+	public static void preInit(FMLPreInitializationEvent event, KanomiyaCore core) {
+		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 
 		try {
 			config.load();
@@ -21,7 +21,7 @@ public class SCMConfig {
 			BlockSuperSponge.EDIT_LIMIT = (config.get("SuperSponge",
 					"EditLimit", 4096).getInt());
 
-			SeikaCreativeMod.ENABLEDBRIGHTNESS = config.get("Others", "brightness_plus", false).getBoolean(false);
+			SeikaCreativeMod.ENABLEDBRIGHTNESS = config.get("Others", "brightness_plus", true).getBoolean(true);
 
 		} catch (Exception e) {
 		} finally {

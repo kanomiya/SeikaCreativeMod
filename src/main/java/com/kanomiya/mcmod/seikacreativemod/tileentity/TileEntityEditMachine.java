@@ -7,8 +7,8 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.BlockPos;
 
-import com.kanomiya.mcmod.core.tileentity.IRedstoneMachine;
-import com.kanomiya.mcmod.core.tileentity.ITileEntityWithInventory;
+import com.kanomiya.mcmod.kanomiyacore.tileentity.IRedstoneMachine;
+import com.kanomiya.mcmod.kanomiyacore.tileentity.ITileEntityWithInventory;
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
 import com.kanomiya.mcmod.seikacreativemod.gui.GuiHandler;
 import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;

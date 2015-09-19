@@ -11,10 +11,10 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
-import com.kanomiya.mcmod.core.util.GameRegistryUtils;
+import com.kanomiya.mcmod.kanomiyacore.KanomiyaCore;
+import com.kanomiya.mcmod.kanomiyacore.util.GameRegistryUtils;
 import com.kanomiya.mcmod.seikacreativemod.item.ItemCommandItem;
 import com.kanomiya.mcmod.seikacreativemod.item.ItemEntityKiller;
-import com.kanomiya.mcmod.seikacreativemod.item.ItemEntityPicker;
 import com.kanomiya.mcmod.seikacreativemod.item.ItemPipette;
 import com.kanomiya.mcmod.seikacreativemod.item.ItemPosWand;
 import com.kanomiya.mcmod.seikacreativemod.item.ItemWorldGen;
@@ -24,22 +24,22 @@ public class SCMItems {
 
 	public static ItemCommandItem itemCommandItem;
 	public static ItemEntityKiller itemEntityKiller;
-	public static ItemEntityPicker itemEntityPicker;
 	public static ItemWorldGen itemWorldGen;
 	public static ItemPipette itemPipette;
 	public static ItemDoor itemBedrockDoor;
 	public static ItemPosWand itemPosWand;
 	// public static Item item;
 
-	public static void preInit(FMLPreInitializationEvent event) {
+	public static void preInit(FMLPreInitializationEvent event, KanomiyaCore core) {
 		final boolean client = event.getSide().isClient();
 
-		GameRegistryUtils.registerItem(itemCommandItem = new ItemCommandItem(), "itemCommandItem", new String[] { "", "minecraft:book" }, client);
-		GameRegistryUtils.registerItem(itemEntityKiller = new ItemEntityKiller(), "itemEntityKiller", client);
-		GameRegistryUtils.registerItem(itemEntityPicker = new ItemEntityPicker(), "itemEntityPicker", client);
-		GameRegistryUtils.registerItem(itemWorldGen = new ItemWorldGen(), "itemWorldGen", client);
-		GameRegistryUtils.registerItem(itemPipette = new ItemPipette(), "itemPipette", client);
-		GameRegistryUtils.registerItem(itemBedrockDoor = new ItemDoor(SCMBlocks.blockBedrockDoor) {
+		GameRegistryUtils utils = core.getGameRegistryUtils();
+
+		utils.registerItem(itemCommandItem = new ItemCommandItem(), "itemCommandItem", new String[] { "", "minecraft:book" }, client);
+		utils.registerItem(itemEntityKiller = new ItemEntityKiller(), "itemEntityKiller", client);
+		utils.registerItem(itemWorldGen = new ItemWorldGen(), "itemWorldGen", client);
+		utils.registerItem(itemPipette = new ItemPipette(), "itemPipette", client);
+		utils.registerItem(itemBedrockDoor = new ItemDoor(SCMBlocks.blockBedrockDoor) {
 			@Override @SideOnly(Side.CLIENT)
 			public void addInformation(ItemStack stack, EntityPlayer player, List tooltip, boolean advanced) {
 				tooltip.add("(Texture: Acacia)");
@@ -47,14 +47,14 @@ public class SCMItems {
 
 		}, "itemBedrockDoor", client);
 
-		GameRegistryUtils.registerItem(itemPosWand = new ItemPosWand(), "itemPosWand", client);
+		utils.registerItem(itemPosWand = new ItemPosWand(), "itemPosWand", client);
 
-		// GameRegistryUtils.registerItem(item = new Item(), "item", client);
+		// utils.registerItem(item = new Item(), "item", client);
 
 
 	}
 
-	public static void init(FMLInitializationEvent event) {  }
-	public static void postInit(FMLPostInitializationEvent event) {  }
+	public static void init(FMLInitializationEvent event, KanomiyaCore core) {  }
+	public static void postInit(FMLPostInitializationEvent event, KanomiyaCore core) {  }
 
 }
