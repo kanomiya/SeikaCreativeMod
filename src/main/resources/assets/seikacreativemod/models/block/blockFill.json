@@ -1,4 +1,4 @@
-﻿{
+{
 	"parent": "block/cube_bottom_top",
 	"textures": {
 		"side": "seikacreativemod:blocks/blockFill_side",

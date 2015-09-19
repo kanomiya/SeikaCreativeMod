@@ -1,4 +1,4 @@
-﻿{
+{
     "parent": "builtin/generated",
     "textures": {
         "layer0": "seikacreativemod:items/itemWorldGen"

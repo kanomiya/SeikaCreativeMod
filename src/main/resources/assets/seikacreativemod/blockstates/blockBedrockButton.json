@@ -1,4 +1,4 @@
-﻿{
+{
     "variants": {
         "facing=up,powered=false":    { "model": "seikacreativemod:blockBedrockButton" },
         "facing=down,powered=false":  { "model": "seikacreativemod:blockBedrockButton", "x": 180 },
