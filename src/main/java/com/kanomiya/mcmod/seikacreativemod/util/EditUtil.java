@@ -1,9 +1,5 @@
 package com.kanomiya.mcmod.seikacreativemod.util;
 
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.item.ItemPipette;
-import com.kanomiya.mcmod.seikacreativemod.item.ItemPosWand;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -16,6 +12,9 @@ import net.minecraft.util.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.item.ItemPipette;
 
 public class EditUtil {
 	protected static final IBlockState airState = Blocks.air.getDefaultState();
@@ -46,17 +45,31 @@ public class EditUtil {
 	}
 
 
+	public static BlockPos intArrayToPos(int[] array) { return new BlockPos(intArrayToPosX(array), intArrayToPosY(array), intArrayToPosZ(array)); }
+	public static int intArrayToPosX(int[] array) { return array[0]; }
+	public static int intArrayToPosY(int[] array) { return array[1]; }
+	public static int intArrayToPosZ(int[] array) { return array[2]; }
+
+	public static int[] posToIntArray(int posX, int posY, int posZ) {
+		return new int[] { posX, posY, posZ };
+	}
+
+	public static int[] posToIntArray(BlockPos pos) {
+		return posToIntArray(pos.getX(), pos.getY(), pos.getZ());
+	}
+
+
 
 	// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 	// ItemStack Check
 	// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
 
-	public static boolean hasBlockState(ItemStack stack) {
-		if (stack != null) {
-			Item item = stack.getItem();
+	public static boolean hasBlockState(ItemStack stackIn) {
+		if (stackIn != null) {
+			Item item = stackIn.getItem();
 			if (item instanceof ItemBlock) { return true; }
-			if (FluidContainerRegistry.isFilledContainer(stack)) { return true; }
-			if (item instanceof ItemPipette)  { return ! getItemStackTag(stack).getCompoundTag("dataPool").hasNoTags(); }
+			if (FluidContainerRegistry.isFilledContainer(stackIn)) { return true; }
+			if (item instanceof ItemPipette)  { return ! getItemStackTag(stackIn).getCompoundTag("dataPool").hasNoTags(); }
 
 
 		}
@@ -64,18 +77,18 @@ public class EditUtil {
 		return true;
 	}
 
-	public static IBlockState getBlockState(ItemStack stack) {
-		if (stack != null) {
-			Item item = stack.getItem();
-			if (item instanceof ItemBlock) { return Block.getBlockFromItem(item).getStateFromMeta(stack.getMetadata()); }
+	public static IBlockState getBlockState(ItemStack stackIn) {
+		if (stackIn != null) {
+			Item item = stackIn.getItem();
+			if (item instanceof ItemBlock) { return Block.getBlockFromItem(item).getStateFromMeta(stackIn.getMetadata()); }
 
-			if (FluidContainerRegistry.isFilledContainer(stack)) {
-				FluidStack fs = FluidContainerRegistry.getFluidForFilledItem(stack);
-				return fs.getFluid().getBlock().getStateFromMeta(stack.getMetadata());
+			if (FluidContainerRegistry.isFilledContainer(stackIn)) {
+				FluidStack fs = FluidContainerRegistry.getFluidForFilledItem(stackIn);
+				return fs.getFluid().getBlock().getStateFromMeta(stackIn.getMetadata());
 			}
 
 			if (item instanceof ItemPipette) {
-				NBTTagCompound nbt = getItemStackTag(stack).getCompoundTag("dataPool");
+				NBTTagCompound nbt = getItemStackTag(stackIn).getCompoundTag("dataPool");
 
 				if (! nbt.hasNoTags()) { return Block.getStateById(nbt.getInteger("blockputid")); }
 			}
@@ -85,21 +98,21 @@ public class EditUtil {
 		return Blocks.air.getDefaultState();
 	}
 
-	public static boolean hasTileEntity(ItemStack stack) {
-		if (stack != null) {
-			Item item = stack.getItem();
-			if (item instanceof ItemPipette)  { return ! getItemStackTag(stack).getCompoundTag("dataPool").hasKey("tileentity"); }
+	public static boolean hasTileEntity(ItemStack stackIn) {
+		if (stackIn != null) {
+			Item item = stackIn.getItem();
+			if (item instanceof ItemPipette)  { return ! getItemStackTag(stackIn).getCompoundTag("dataPool").hasKey("tileentity"); }
 
 		}
 
 		return false;
 	}
 
-	public static TileEntity getTileEntity(ItemStack stack) {
-		if (stack != null) {
-			Item item = stack.getItem();
+	public static TileEntity getTileEntity(ItemStack stackIn) {
+		if (stackIn != null) {
+			Item item = stackIn.getItem();
 			if (item instanceof ItemPipette)  {
-				NBTTagCompound nbt = getItemStackTag(stack).getCompoundTag("dataPool").getCompoundTag("tileentity");
+				NBTTagCompound nbt = getItemStackTag(stackIn).getCompoundTag("dataPool").getCompoundTag("tileentity");
 
 				return TileEntity.createAndLoadEntity(nbt);
 			}
@@ -110,30 +123,21 @@ public class EditUtil {
 	}
 
 
-	public static boolean hasPositon(ItemStack stack) {
-		if (stack != null) {
-			Item item = stack.getItem();
-
-			if (item instanceof ItemPosWand) {
-				return (getItemStackTag(stack).hasKey("position"));
-			}
-		}
-
-		return false;
+	public static void setPositon(ItemStack stackIn, BlockPos pos) {
+		NBTTagCompound tag = getItemStackTag(stackIn);
+		tag.setIntArray(TAG_POSITION, posToIntArray(pos));
 	}
 
-	public static BlockPos getPositon(ItemStack stack) {
-		if (stack != null) {
-			Item item = stack.getItem();
+	public static boolean hasPositon(ItemStack stackIn) {
+		return getItemStackTag(stackIn).hasKey(TAG_POSITION);
+	}
 
-			if (item instanceof ItemPosWand) {
-				int[] pos = getItemStackTag(stack).getIntArray("position");
+	public static BlockPos getPositon(ItemStack stackIn) {
+		return intArrayToPos(getPositionIntArray(stackIn));
+	}
 
-				if (pos.length == 3) { return new BlockPos(pos[0], pos[1], pos[2]); }
-			}
-		}
-
-		return null;
+	public static int[] getPositionIntArray(ItemStack stackIn) {
+		return getItemStackTag(stackIn).getIntArray(TAG_POSITION);
 	}
 
 
@@ -297,6 +301,9 @@ public class EditUtil {
 
 		return count;
 	}
+
+
+	public static final String TAG_POSITION = "position";
 
 
 
