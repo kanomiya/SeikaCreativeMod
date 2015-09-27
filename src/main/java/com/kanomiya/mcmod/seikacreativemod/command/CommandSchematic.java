@@ -5,9 +5,6 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.schematic.Schematic;
-
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
@@ -16,6 +13,9 @@ import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.util.BlockPos;
 import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.MathHelper;
+
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.schematic.Schematic;
 
 public class CommandSchematic extends CommandBase {
 	protected static final int MISS_SCHEMATIC = 0;
@@ -114,7 +114,7 @@ public class CommandSchematic extends CommandBase {
 				}
 
 				sender.addChatMessage(new ChatComponentText("Building is Starting w: " + sch.width + " h: " + sch.height + " d: " + sch.depth));
-				sch.build(sender.getEntityWorld(), x, y, z);
+				sch.build(sender.getEntityWorld(), new BlockPos(x, y, z));
 
 				sender.addChatMessage(new ChatComponentText("Building has done"));
 			}
@@ -147,7 +147,7 @@ public class CommandSchematic extends CommandBase {
 
 				sender.addChatMessage(new ChatComponentText("Test is Starting w: " + sch.width + " h: " + sch.height + " d: " + sch.depth));
 
-				sch.test(sender.getEntityWorld(), x, y, z);
+				sch.test(sender.getEntityWorld(), new BlockPos(x, y, z));
 
 				sender.addChatMessage(new ChatComponentText("Test has done"));
 

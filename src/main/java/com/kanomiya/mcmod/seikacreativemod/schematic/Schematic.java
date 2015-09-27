@@ -23,57 +23,54 @@ public class Schematic {
 	public NBTTagList tileEntities;
 	public NBTTagList entities;
 
-
-	public void build(World world, int x, int y, int z) {
-		// Blocks
+	public void build(World worldIn, BlockPos rlPos) {
 		ArrayList<SchematicBlock> airBlocks = new ArrayList<SchematicBlock>();
-		for (SchematicBlock schBlock: blocks) {
-			BlockPos pos = new BlockPos(x +schBlock.x, y +schBlock.y, z +schBlock.z);
 
-			if (schBlock.block.canPlaceBlockAt(world, pos)) {
-				world.setBlockState(pos, schBlock.block.getStateFromMeta(schBlock.meta), 2);
+		for (SchematicBlock schBlock: blocks) {
+			BlockPos pos = rlPos.add(schBlock.getBlockPos());
+
+			if (schBlock.block.canPlaceBlockAt(worldIn, pos)) {
+				worldIn.setBlockState(pos, schBlock.getBlockState(), 2);
 			} else {
 				airBlocks.add(schBlock);
 			}
 		}
 
 		for (SchematicBlock schBlock: airBlocks) {
-			BlockPos pos = new BlockPos(x +schBlock.x, y +schBlock.y, z +schBlock.z);
-			world.setBlockState(pos, schBlock.block.getStateFromMeta(schBlock.meta), 2);
+			BlockPos pos = rlPos.add(schBlock.getBlockPos());
+			worldIn.setBlockState(pos, schBlock.block.getStateFromMeta(schBlock.meta), 2);
 		}
 
 		// TileEntities
 		for (int ii=0; ii<tileEntities.tagCount(); ii++) {
 			NBTTagCompound eachtag = tileEntities.getCompoundTagAt(ii);
 			BlockPos pos = new BlockPos(
-					eachtag.getInteger("x") +x,
-					eachtag.getInteger("y") +y,
-					eachtag.getInteger("z") +z);
+					eachtag.getInteger("x") +rlPos.getX(),
+					eachtag.getInteger("y") +rlPos.getY(),
+					eachtag.getInteger("z") +rlPos.getZ());
 
-			world.setTileEntity(pos, TileEntity.createAndLoadEntity(eachtag));
+			worldIn.setTileEntity(pos, TileEntity.createAndLoadEntity(eachtag));
 		}
 
 		// Entities
 		for (int ii=0; ii<entities.tagCount(); ii++) {
 			NBTTagCompound eachtag = entities.getCompoundTagAt(ii);
-			Entity ent = EntityList.createEntityFromNBT(eachtag, world);
-			ent.serverPosX += x;
-			ent.serverPosY += y;
-			ent.serverPosZ += z;
+			Entity ent = EntityList.createEntityFromNBT(eachtag, worldIn);
+			ent.serverPosX += rlPos.getX();
+			ent.serverPosY += rlPos.getY();
+			ent.serverPosZ += rlPos.getZ();
 
-			world.spawnEntityInWorld(ent);
+			worldIn.spawnEntityInWorld(ent);
 		}
 
 
 	}
 
-	public void test(World world, int x, int y, int z) {
-		BlockPos pos = new BlockPos(x, y, z);
-
-		world.setBlockState(pos, Blocks.beacon.getDefaultState(), 2);
-		world.setBlockState(pos.add(width, 0, 0), Blocks.beacon.getDefaultState(), 2);
-		world.setBlockState(pos.add(0, 0, depth), Blocks.beacon.getDefaultState(), 2);
-		world.setBlockState(pos.add(width, 0, depth), Blocks.beacon.getDefaultState(), 2);
+	public void test(World world, BlockPos rlPos) {
+		world.setBlockState(rlPos, Blocks.beacon.getDefaultState(), 2);
+		world.setBlockState(rlPos.add(width, 0, 0), Blocks.beacon.getDefaultState(), 2);
+		world.setBlockState(rlPos.add(0, 0, depth), Blocks.beacon.getDefaultState(), 2);
+		world.setBlockState(rlPos.add(width, 0, depth), Blocks.beacon.getDefaultState(), 2);
 	}
 
 
@@ -111,7 +108,7 @@ public class Schematic {
 			for (int k=0; k<sch.depth; k++) {
 				for (int i=0; i<sch.width; i++) {
 					Block block = Block.getBlockById(blocks[index]);
-					blockList.add(new SchematicBlock(i, j, k, block, data[index]));
+					blockList.add(new SchematicBlock(new BlockPos(i, j, k), block, data[index]));
 
 					index ++;
 				}
