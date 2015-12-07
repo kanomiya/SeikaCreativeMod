@@ -33,19 +33,24 @@ public class EditUtil {
 	}
 
 
-	public static NBTTagCompound getItemStackTag(ItemStack item) {
-		NBTTagCompound tag = item.getTagCompound();
+	public static NBTTagCompound getItemStackTag(ItemStack stackIn) {
+		if (stackIn == null) return null;
+
+		NBTTagCompound tag = stackIn.getTagCompound();
 
 		if(tag == null) {
 			tag = new NBTTagCompound();
-			item.setTagCompound(tag);
+			stackIn.setTagCompound(tag);
 		}
 
 		return tag;
 	}
 
 
-	public static BlockPos intArrayToPos(int[] array) { return new BlockPos(intArrayToPosX(array), intArrayToPosY(array), intArrayToPosZ(array)); }
+	public static BlockPos intArrayToPos(int[] array) {
+		if (array == null || array.length != 3) return null;
+		return new BlockPos(intArrayToPosX(array), intArrayToPosY(array), intArrayToPosZ(array));
+	}
 	public static int intArrayToPosX(int[] array) { return array[0]; }
 	public static int intArrayToPosY(int[] array) { return array[1]; }
 	public static int intArrayToPosZ(int[] array) { return array[2]; }
@@ -124,19 +129,24 @@ public class EditUtil {
 
 
 	public static void setPositon(ItemStack stackIn, BlockPos pos) {
+		if (stackIn == null) return ;
+
 		NBTTagCompound tag = getItemStackTag(stackIn);
 		tag.setIntArray(TAG_POSITION, posToIntArray(pos));
 	}
 
 	public static boolean hasPositon(ItemStack stackIn) {
+		if (stackIn == null) return false;
 		return getItemStackTag(stackIn).hasKey(TAG_POSITION);
 	}
 
 	public static BlockPos getPositon(ItemStack stackIn) {
+		if (stackIn == null) return null;
 		return intArrayToPos(getPositionIntArray(stackIn));
 	}
 
 	public static int[] getPositionIntArray(ItemStack stackIn) {
+		if (stackIn == null) return null;
 		return getItemStackTag(stackIn).getIntArray(TAG_POSITION);
 	}
 

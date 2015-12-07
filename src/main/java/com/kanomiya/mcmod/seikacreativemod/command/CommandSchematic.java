@@ -24,7 +24,7 @@ public class CommandSchematic extends CommandBase {
 	protected static final int MISS_SAVE = 3;
 	protected static final int MISS_OLDSAVE = 4;
 
-	@Override public String getName() {
+	@Override public String getCommandName() {
 		return "schematic";
 	}
 
@@ -32,29 +32,29 @@ public class CommandSchematic extends CommandBase {
 		return "/schematic <load/test/save/oldsave> <Filename> <x> <y> <z> ([x2] [y2] [z2])";
 	}
 
-	@Override public void execute(ICommandSender sender, String[] strs) {
-		if (0 < strs.length) {
-			if (strs[0].equals("load")) {
-				if (strs.length >= 5) {
-					load(sender, strs[1], new String[] {strs[2], strs[3], strs[4]} );
-				} else if (strs.length == 2) {
-					load(sender, strs[1], new String[] {"~0","~0","~0"} );
+	@Override public void processCommand(ICommandSender sender, String[] args) {
+		if (0 < args.length) {
+			if (args[0].equals("load")) {
+				if (args.length >= 5) {
+					load(sender, args[1], new String[] {args[2], args[3], args[4]} );
+				} else if (args.length == 2) {
+					load(sender, args[1], new String[] {"~0","~0","~0"} );
 				} else { missCommand(sender, MISS_LOAD); return; }
 
-			} else if (strs[0].equals("test")) {
-				if (strs.length >= 5) {
-					test(sender, strs[1], new String[] {strs[2], strs[3], strs[4]} );
-				} else if (strs.length == 2) {
-					test(sender, strs[1], new String[] {"~0","~0","~0"} );
+			} else if (args[0].equals("test")) {
+				if (args.length >= 5) {
+					test(sender, args[1], new String[] {args[2], args[3], args[4]} );
+				} else if (args.length == 2) {
+					test(sender, args[1], new String[] {"~0","~0","~0"} );
 				} else { missCommand(sender, MISS_TEST); return; }
 
-			} else if (strs[0].equals("save")) {
-				if (strs.length >= 7) {
-					save(sender, strs[1], new String[] {strs[2], strs[3], strs[4]}, new String[] {strs[5], strs[6], strs[7]}, false);
+			} else if (args[0].equals("save")) {
+				if (args.length >= 7) {
+					save(sender, args[1], new String[] {args[2], args[3], args[4]}, new String[] {args[5], args[6], args[7]}, false);
 				} else { missCommand(sender, MISS_SAVE); return; }
-			} else if (strs[0].equals("oldsave")) {
-				if (strs.length >= 7) {
-					save(sender, strs[1], new String[] {strs[2], strs[3], strs[4]}, new String[] {strs[5], strs[6], strs[7]}, true);
+			} else if (args[0].equals("oldsave")) {
+				if (args.length >= 7) {
+					save(sender, args[1], new String[] {args[2], args[3], args[4]}, new String[] {args[5], args[6], args[7]}, true);
 				} else { missCommand(sender, MISS_OLDSAVE); return; }
 
 			} else {
@@ -106,9 +106,9 @@ public class CommandSchematic extends CommandBase {
 				x = y = z = 0;
 
 				try {
-					x = MathHelper.floor_double(func_175761_b(pos.getX(), xyzplus[0], true));
-					y = MathHelper.floor_double(func_175761_b(pos.getY(), xyzplus[1], true));
-					z = MathHelper.floor_double(func_175761_b(pos.getZ(), xyzplus[2], true));;
+					x = MathHelper.floor_double(parseCoordinate(pos.getX(), xyzplus[0], true).func_179628_a());
+					y = MathHelper.floor_double(parseCoordinate(pos.getY(), xyzplus[1], true).func_179628_a());
+					z = MathHelper.floor_double(parseCoordinate(pos.getZ(), xyzplus[2], true).func_179628_a());
 				} catch (NumberInvalidException e) {
 					e.printStackTrace(); return ;
 				}
@@ -138,9 +138,9 @@ public class CommandSchematic extends CommandBase {
 				x = y = z = 0;
 
 				try {
-					x = MathHelper.floor_double(func_175761_b(pos.getX(), xyzplus[0], true));
-					y = MathHelper.floor_double(func_175761_b(pos.getY(), xyzplus[1], true));
-					z = MathHelper.floor_double(func_175761_b(pos.getZ(), xyzplus[2], true));;
+					x = MathHelper.floor_double(parseCoordinate(pos.getX(), xyzplus[0], true).func_179628_a());
+					y = MathHelper.floor_double(parseCoordinate(pos.getY(), xyzplus[1], true).func_179628_a());
+					z = MathHelper.floor_double(parseCoordinate(pos.getZ(), xyzplus[2], true).func_179628_a());
 				} catch (NumberInvalidException e) {
 					e.printStackTrace(); return ;
 				}
@@ -171,13 +171,13 @@ public class CommandSchematic extends CommandBase {
 			x2 = y2 = z2 = 0;
 
 			try {
-				x1 = MathHelper.floor_double(func_175761_b(pos.getX(), xyz1[0], true));
-				y1 = MathHelper.floor_double(func_175761_b(pos.getY(), xyz1[1], true));
-				z1 = MathHelper.floor_double(func_175761_b(pos.getZ(), xyz1[2], true));;
+				x1 = MathHelper.floor_double(parseCoordinate(pos.getX(), xyz1[0], true).func_179628_a());
+				y1 = MathHelper.floor_double(parseCoordinate(pos.getY(), xyz1[1], true).func_179628_a());
+				z1 = MathHelper.floor_double(parseCoordinate(pos.getZ(), xyz1[2], true).func_179628_a());
 
-				x2 = MathHelper.floor_double(func_175761_b(pos.getX(), xyz2[0], true));
-				y2 = MathHelper.floor_double(func_175761_b(pos.getY(), xyz2[1], true));
-				z2 = MathHelper.floor_double(func_175761_b(pos.getZ(), xyz2[2], true));;
+				x2 = MathHelper.floor_double(parseCoordinate(pos.getX(), xyz2[0], true).func_179628_a());
+				y2 = MathHelper.floor_double(parseCoordinate(pos.getY(), xyz2[1], true).func_179628_a());
+				z2 = MathHelper.floor_double(parseCoordinate(pos.getZ(), xyz2[2], true).func_179628_a());
 			} catch (NumberInvalidException e) {
 				e.printStackTrace(); return ;
 			}

@@ -5,9 +5,6 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.List;
 
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
-
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.creativetab.CreativeTabs;
@@ -26,6 +23,9 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
 
 public class ItemCommandItem extends Item {
 
@@ -49,7 +49,7 @@ public class ItemCommandItem extends Item {
 		if (b == Blocks.command_block) {
 			TileEntityCommandBlock te = (TileEntityCommandBlock) world.getTileEntity(pos);
 			if (te != null) {
-				String command = te.getCommandBlockLogic().getCustomName();
+				String command = te.getCommandBlockLogic().getCommand();
 
 				if (! command.equals("")) {
 					list.appendTag(new NBTTagString(command));

@@ -26,7 +26,7 @@ import net.minecraft.world.World;
 
 public class CommandKillPlus extends CommandBase {
 
-	@Override public String getName() {
+	@Override public String getCommandName() {
 		return "killp";
 	}
 
@@ -34,44 +34,44 @@ public class CommandKillPlus extends CommandBase {
 		return "seikacreativemod.commands.killp.usage";
 	}
 
-	@Override public void execute(ICommandSender sender, String[] strs) {
-		if (strs.length == 0) { missCommand(sender); return; }
+	@Override public void processCommand(ICommandSender sender, String[] args) {
+		if (args.length == 0) { missCommand(sender); return; }
 
 		Vector<Class> vec = new Vector();
 
-		if (strs[0].equals("living")) { // EntityLiving
+		if (args[0].equals("living")) { // EntityLiving
 			vec.add(EntityLiving.class);
-		} else if (strs[0].equals("item")) { // EntityItem
+		} else if (args[0].equals("item")) { // EntityItem
 			vec.add(EntityItem.class);
-		} else if (strs[0].equals("monster")) { // IMob
+		} else if (args[0].equals("monster")) { // IMob
 			vec.add(IMob.class);
-		} else if (strs[0].equals("slime")) { // EntitySlime
+		} else if (args[0].equals("slime")) { // EntitySlime
 			vec.add(EntitySlime.class);
-		} else if (strs[0].equals("animal")) { // IAnimals
+		} else if (args[0].equals("animal")) { // IAnimals
 			vec.add(IAnimals.class);
-		} else if (strs[0].equals("tameable")) { // IEntityOwnable || EntityHorse
+		} else if (args[0].equals("tameable")) { // IEntityOwnable || EntityHorse
 			vec.add(IEntityOwnable.class);
 			vec.add(EntityHorse.class);
-		} else if (strs[0].equals("bat")) { // EntityBat
+		} else if (args[0].equals("bat")) { // EntityBat
 			vec.add(EntityBat.class);
-		} else if (strs[0].equals("npc")) { // INpc
+		} else if (args[0].equals("npc")) { // INpc
 			vec.add(INpc.class);
-		} else if (strs[0].equals("merchant")) { // IMerchant
+		} else if (args[0].equals("merchant")) { // IMerchant
 			vec.add(IMerchant.class);
-		} else if (strs[0].equals("tnt")) { // EntityTNTPrimed
+		} else if (args[0].equals("tnt")) { // EntityTNTPrimed
 			vec.add(EntityTNTPrimed.class);
-		} else if (strs[0].equals("projectile")) { // IProjectile
+		} else if (args[0].equals("projectile")) { // IProjectile
 			vec.add(IProjectile.class);
-		} else if (strs[0].equals("player")) { // EntityPlayer
+		} else if (args[0].equals("player")) { // EntityPlayer
 			vec.add(EntityPlayer.class);
 		}
 
 		if (0 < vec.size()) {
 			int length = 3;
 
-			if (strs.length == 2) {
+			if (args.length == 2) {
 				try {
-					length = Integer.valueOf(strs[1]);
+					length = Integer.valueOf(args[1]);
 				} catch (NumberFormatException e) {
 					missCommand(sender);
 				}

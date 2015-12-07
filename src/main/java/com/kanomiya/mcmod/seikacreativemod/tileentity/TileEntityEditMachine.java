@@ -2,6 +2,7 @@ package com.kanomiya.mcmod.seikacreativemod.tileentity;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
@@ -141,25 +142,17 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 
 	public String[] getInfo() { return (info != null) ? info : new String[] { "null" }; }
 
+
+
 	public void updateInfo() {
 		String info = "";
 
-		ItemStack targetStack = items[0];
-		ItemStack putStack = items[1];
-		ItemStack fromStack = items[2];
-		ItemStack toStack = items[3];
+		IBlockState target = EditUtil.getBlockState(items[0]);
+		IBlockState put = EditUtil.getBlockState(items[1]);
+		TileEntity putTileEntity = EditUtil.getTileEntity(items[1]);
 
-		boolean targetFlag = EditUtil.hasBlockState(targetStack);
-		boolean putFlag = EditUtil.hasBlockState(putStack);
-		boolean fromFlag = EditUtil.hasPositon(fromStack);
-		boolean toFlag = EditUtil.hasPositon(toStack);
-
-		IBlockState target = EditUtil.getBlockState(targetStack);
-		IBlockState put = EditUtil.getBlockState(putStack);
-		TileEntity putTileEntity = EditUtil.getTileEntity(putStack);
-
-		BlockPos from = EditUtil.getPositon(fromStack);
-		BlockPos to = EditUtil.getPositon(toStack);
+		BlockPos from = EditUtil.getPositon(items[2]);
+		BlockPos to = EditUtil.getPositon(items[3]);
 
 		boolean needTarget = true;
 		boolean needPut = true;
@@ -169,7 +162,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 		int count = -1;
 		switch (mode) {
 		case MODE_REPLACE:
-			if (fromFlag && toFlag && (targetFlag || putFlag)) {
+			if (from != null && to != null && (target != Blocks.air.getDefaultState() || put != Blocks.air.getDefaultState())) {
 				count = EditUtil.replace(worldObj, from, to, target, put, putTileEntity, true);
 			}
 			break;
@@ -177,7 +170,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 		case MODE_FILL:
 			needTarget = needTo = false;
 
-			if (fromFlag && putFlag) {
+			if (from != null && put != Blocks.air.getDefaultState()) {
 				count = EditUtil.fill(worldObj, from, put, putTileEntity, true);
 			}
 			break;
@@ -186,7 +179,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 		case MODE_BOX:
 			needTarget = false;
 
-			if (fromFlag && toFlag && putFlag) {
+			if (from != null && to != null && put != Blocks.air.getDefaultState()) {
 				count = EditUtil.box(worldObj, from, to, put, putTileEntity, true);
 			}
 
@@ -278,7 +271,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 	}
 
 	@Override
-	public String getName() {
+	public String getCommandSenderName() {
 		return (hasCustomName()) ? customName : "container.editmachine";
 	}
 
