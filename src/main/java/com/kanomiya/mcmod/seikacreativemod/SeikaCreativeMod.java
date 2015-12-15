@@ -24,7 +24,7 @@ import com.kanomiya.mcmod.seikacreativemod.command.CommandSchematic;
 import com.kanomiya.mcmod.seikacreativemod.gui.GuiHandler;
 import com.kanomiya.mcmod.seikacreativemod.network.PacketHandler;
 
-@Mod(modid = SeikaCreativeMod.MODID)
+@Mod(modid = SeikaCreativeMod.MODID, acceptedMinecraftVersions = "[1.8,1.8.8]")
 public class SeikaCreativeMod {
 	public static final String MODID = "seikacreativemod";
 

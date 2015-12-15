@@ -124,7 +124,7 @@ public class ItemPipette extends Item {
 		entity.writeToNBT(entityNbt);
 
 		entityNbt.setString("id", EntityList.getEntityString(entity));
-		entityNbt.setString("_entityName", entity.getCommandSenderName());
+		entityNbt.setString("_entityName", entity.getName());
 		entityNbt.setFloat("_health", entity.getHealth());
 		entityNbt.setFloat("_maxHealth", entity.getMaxHealth());
 		tag.setTag("pickedEntity", entityNbt);

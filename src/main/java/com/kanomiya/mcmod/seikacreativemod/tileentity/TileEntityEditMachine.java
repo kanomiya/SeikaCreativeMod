@@ -271,7 +271,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 	}
 
 	@Override
-	public String getCommandSenderName() {
+	public String getName() {
 		return (hasCustomName()) ? customName : "container.editmachine";
 	}
 
@@ -302,5 +302,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 	@Override public void setPrevRSState(boolean powered) {
 		previousRedstoneState = powered;
 	}
+
+	
 
 }
