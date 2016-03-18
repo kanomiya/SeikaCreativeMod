@@ -1,11 +1,8 @@
 package com.kanomiya.mcmod.seikacreativemod.block;
 
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityFill;
-import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
-
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
@@ -14,10 +11,16 @@ import net.minecraft.init.Items;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
+
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityFill;
+import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
 
 public class BlockFill extends BlockContainer {
 	public static int EDIT_MINY = 0;
@@ -29,50 +32,49 @@ public class BlockFill extends BlockContainer {
 
 		setHardness(0.5f);
 		setResistance(1.0f);
-		setStepSound(Block.soundTypeStone);
+		setStepSound(SoundType.STONE);
 
 	}
 
 	// RS切断
 	@Override
-	public boolean isOpaqueCube() { return false; }
+	public boolean isOpaqueCube(IBlockState state) { return false; }
 
 
 	@Override
-	public boolean onBlockActivated(World world, BlockPos pos, IBlockState state, EntityPlayer player, EnumFacing side, float hitX, float hitY, float hitZ) {
+	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
 
-		if (world.isRemote) { return false; }
-		TileEntityFill te = (TileEntityFill) world.getTileEntity(pos);
+		if (worldIn.isRemote) { return false; }
+		TileEntityFill te = (TileEntityFill) worldIn.getTileEntity(pos);
 		if (te == null) { return false; }
 
-		ItemStack is = player.getHeldItem();
-		if (is != null) {
-			if (is.getItem() instanceof ItemBlock) {
-				Block block = Block.getBlockFromItem(is.getItem());
+		if (heldItem != null) {
+			if (heldItem.getItem() instanceof ItemBlock) {
+				Block block = Block.getBlockFromItem(heldItem.getItem());
 
-				te.setPutState(block.getStateFromMeta(is.getMetadata()));
+				te.setPutState(block.getStateFromMeta(heldItem.getMetadata()));
 
-				player.addChatMessage(new ChatComponentText(
+				playerIn.addChatMessage(new TextComponentString(
 						"Set new block as "
 								+ block.getLocalizedName()));
 
-			} else if (is.getItem() == Items.water_bucket) {
+			} else if (heldItem.getItem() == Items.water_bucket) {
 				te.setPutState(Blocks.water.getDefaultState());
 
-				player.addChatMessage(new ChatComponentText(
+				playerIn.addChatMessage(new TextComponentString(
 						"Set new block as "
 								+ te.getPutState().getBlock().getLocalizedName()));
 
-			} else if (is.getItem() == Items.lava_bucket) {
+			} else if (heldItem.getItem() == Items.lava_bucket) {
 				te.setPutState(Blocks.lava.getDefaultState());
 
-				player.addChatMessage(new ChatComponentText(
+				playerIn.addChatMessage(new TextComponentString(
 						"Set new block as "
 								+ te.getPutState().getBlock().getLocalizedName()));
-			} else if (is.getItem() == Items.gunpowder) {
+			} else if (heldItem.getItem() == Items.gunpowder) {
 				te.sidelength ++;
 
-				player.addChatMessage(new ChatComponentText(
+				playerIn.addChatMessage(new TextComponentString(
 						"Set Fill Depth as "
 								+ te.sidelength));
 			} else {
@@ -82,7 +84,7 @@ public class BlockFill extends BlockContainer {
 		}
 		else {
 			te.setPutState(Blocks.air.getDefaultState());
-			player.addChatMessage(new ChatComponentText(
+			playerIn.addChatMessage(new TextComponentString(
 					"Set new block as Air"));
 		}
 
@@ -128,7 +130,8 @@ public class BlockFill extends BlockContainer {
 	}
 
 	@Override
-	public int getRenderType() {
-		return 3;
+	public EnumBlockRenderType getRenderType(IBlockState state)
+	{
+		return EnumBlockRenderType.MODEL;
 	}
 }

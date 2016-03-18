@@ -9,8 +9,8 @@ import net.minecraft.init.Blocks;
 import net.minecraft.init.Items;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.ChatComponentText;
 import net.minecraft.util.DamageSource;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class EntitySandBag extends EntityLiving {
@@ -20,8 +20,8 @@ public class EntitySandBag extends EntityLiving {
 	public EntitySandBag(World world) {
 		super(world);
 
-		getEntityAttribute(SharedMonsterAttributes.maxHealth).setBaseValue(1000.0d);
-		getEntityAttribute(SharedMonsterAttributes.movementSpeed).setBaseValue(0.0d);
+		getEntityAttribute(SharedMonsterAttributes.MAX_HEALTH).setBaseValue(1000.0d);
+		getEntityAttribute(SharedMonsterAttributes.MOVEMENT_SPEED).setBaseValue(0.0d);
 
 		setHealth(getMaxHealth());
 		experienceValue = 0;
@@ -44,12 +44,12 @@ public class EntitySandBag extends EntityLiving {
 				return bool;
 			}
 
-			owner.addChatMessage(new ChatComponentText(((hasCustomName()) ? getCustomNameTag(): "SandBag") +
+			owner.addChatMessage(new TextComponentString(((hasCustomName()) ? getCustomNameTag(): "SandBag") +
 											"> Damage: "+ damage + "(" + getHealth() + "/" + getMaxHealth() + ")" +
 											" Type: " + source.damageType));
 
 			if (source == DamageSource.fall && notifyOnFalling) {
-				owner.addChatMessage(new ChatComponentText(((hasCustomName()) ? getCustomNameTag(): "SandBag") +
+				owner.addChatMessage(new TextComponentString(((hasCustomName()) ? getCustomNameTag(): "SandBag") +
 											"> Fell at : (" + (int)posX + "," + (int)posY + "," + (int)posZ + ")"));
 
 			}
@@ -66,17 +66,17 @@ public class EntitySandBag extends EntityLiving {
 
 		if (entity instanceof EntityPlayer) {
 			EntityPlayer player = (EntityPlayer) entity;
-			ItemStack is = player.getHeldItem();
+			ItemStack is = player.getHeldItemMainhand();
 
 			if (is != null && is.getItem() == Item.getItemFromBlock(Blocks.tnt)) {
 				if (! notifyOnFalling) {
 					notifyOnFalling = true;
-					player.addChatMessage(new ChatComponentText(((hasCustomName()) ? getCustomNameTag(): "SandBag") +
+					player.addChatMessage(new TextComponentString(((hasCustomName()) ? getCustomNameTag(): "SandBag") +
 												"> Falling Notify is Enabled"));
 				}
 			} else if (notifyOnFalling) {
 				notifyOnFalling = false;
-				player.addChatMessage(new ChatComponentText(((hasCustomName()) ? getCustomNameTag(): "SandBag") +
+				player.addChatMessage(new TextComponentString(((hasCustomName()) ? getCustomNameTag(): "SandBag") +
 											"> Falling Notify is Disabled"));
 
 			}

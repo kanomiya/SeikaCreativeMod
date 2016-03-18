@@ -7,11 +7,13 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-import net.minecraftforge.fluids.FluidContainerRegistry;
 import net.minecraftforge.fluids.FluidStack;
+import net.minecraftforge.fluids.IFluidContainerItem;
+import net.minecraftforge.fml.server.FMLServerHandler;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
 import com.kanomiya.mcmod.seikacreativemod.item.ItemPipette;
@@ -73,7 +75,7 @@ public class EditUtil {
 		if (stackIn != null) {
 			Item item = stackIn.getItem();
 			if (item instanceof ItemBlock) { return true; }
-			if (FluidContainerRegistry.isFilledContainer(stackIn)) { return true; }
+			if (item instanceof IFluidContainerItem && ((IFluidContainerItem) item).getFluid(stackIn) != null) { return true; }
 			if (item instanceof ItemPipette)  { return ! getItemStackTag(stackIn).getCompoundTag("dataPool").hasNoTags(); }
 
 
@@ -87,9 +89,10 @@ public class EditUtil {
 			Item item = stackIn.getItem();
 			if (item instanceof ItemBlock) { return Block.getBlockFromItem(item).getStateFromMeta(stackIn.getMetadata()); }
 
-			if (FluidContainerRegistry.isFilledContainer(stackIn)) {
-				FluidStack fs = FluidContainerRegistry.getFluidForFilledItem(stackIn);
-				return fs.getFluid().getBlock().getStateFromMeta(stackIn.getMetadata());
+			if (item instanceof IFluidContainerItem) {
+				FluidStack fs = ((IFluidContainerItem) item).getFluid(stackIn);
+				if (fs != null)
+					return fs.getFluid().getBlock().getStateFromMeta(stackIn.getMetadata());
 			}
 
 			if (item instanceof ItemPipette) {
@@ -119,7 +122,11 @@ public class EditUtil {
 			if (item instanceof ItemPipette)  {
 				NBTTagCompound nbt = getItemStackTag(stackIn).getCompoundTag("dataPool").getCompoundTag("tileentity");
 
-				return TileEntity.createAndLoadEntity(nbt);
+				// VELIF
+
+				MinecraftServer server = FMLServerHandler.instance().getServer();
+
+				return TileEntity.createTileEntity(server, nbt);
 			}
 
 		}

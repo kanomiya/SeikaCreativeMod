@@ -1,13 +1,15 @@
 package com.kanomiya.mcmod.seikacreativemod.block;
 
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-
 import net.minecraft.block.Block;
+import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
 
 public class BlockBedrockLight extends Block {
 
@@ -18,7 +20,7 @@ public class BlockBedrockLight extends Block {
 
 		setResistance(6000000.0F);
 		setLightLevel(1.0f);
-		setStepSound(soundTypePiston);
+		setStepSound(SoundType.STONE);
 		setUnlocalizedName("blockBedrockLight");
 		setCreativeTab(SeikaCreativeMod.tabSeika);
 		disableStats();
@@ -27,7 +29,7 @@ public class BlockBedrockLight extends Block {
 
 
 	@Override
-	public boolean canEntityDestroy(IBlockAccess world, BlockPos pos, Entity entity) {
+	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
 		return (entity instanceof EntityPlayer);
 	}
 

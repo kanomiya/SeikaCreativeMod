@@ -12,8 +12,11 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 
@@ -32,28 +35,32 @@ public class ItemPipette extends Item {
 	}
 
 
-	@Override public ItemStack onItemRightClick(ItemStack stack, World worldIn, EntityPlayer playerIn) {
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+	{
 		if (playerIn.isSneaking()) {
-			EditUtil.getItemStackTag(stack).removeTag("dataPool");
-			return stack;
+			EditUtil.getItemStackTag(itemStackIn).removeTag("dataPool");
+
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 		}
 
-		return stack;
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
 	}
 
-	@Override public boolean onItemUse(ItemStack stack, EntityPlayer player, World world, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-		NBTTagCompound tag = EditUtil.getItemStackTag(stack).getCompoundTag("dataPool");
+	@Override public EnumActionResult onItemUse(ItemStack itemStackIn, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		NBTTagCompound tag = EditUtil.getItemStackTag(itemStackIn).getCompoundTag("dataPool");
 
-		if (player.isSneaking()) {
-			if (! world.isAirBlock(pos)) {
+		if (playerIn.isSneaking()) {
+			if (! worldIn.isAirBlock(pos)) {
 				tag = new NBTTagCompound();
 
-				IBlockState state = world.getBlockState(pos);
+				IBlockState state = worldIn.getBlockState(pos);
 
 				tag.setString("blockname", state.getBlock().getLocalizedName());
 				tag.setInteger("blockstateid", Block.getStateId(state));
 
-				TileEntity te = world.getTileEntity(pos);
+				TileEntity te = worldIn.getTileEntity(pos);
 				if (te != null) {
 					NBTTagCompound tetag = tag.getCompoundTag("tileentity");
 					te.writeToNBT(tetag);
@@ -63,80 +70,80 @@ public class ItemPipette extends Item {
 					tag.removeTag("tileentity");
 				}
 
-				EditUtil.getItemStackTag(stack).setTag("dataPool", tag);
+				EditUtil.getItemStackTag(itemStackIn).setTag("dataPool", tag);
 
-				return true;
+				return EnumActionResult.SUCCESS;
 
 			}
 
-		} else if (! world.isRemote) {
+		} else if (! worldIn.isRemote) {
 
 			if (! tag.hasNoTags()) {
 				if (tag.hasKey("blockstateid")) {
-					BlockPos newPos = pos.add(side.getFrontOffsetX(), side.getFrontOffsetY(), side.getFrontOffsetZ());
+					BlockPos newPos = pos.add(facing.getFrontOffsetX(), facing.getFrontOffsetY(), facing.getFrontOffsetZ());
 					IBlockState state = Block.getStateById(tag.getInteger("blockstateid"));
 
-					world.setBlockState(newPos, state);
-					state.getBlock().onBlockPlacedBy(world, newPos, state, player, stack);
+					worldIn.setBlockState(newPos, state);
+					state.getBlock().onBlockPlacedBy(worldIn, newPos, state, playerIn, itemStackIn);
 
 					if (tag.hasKey("tileentity")) {
 						NBTTagCompound tetag = tag.getCompoundTag("tileentity");
-						TileEntity te = state.getBlock().createTileEntity(world, state);
+						TileEntity te = state.getBlock().createTileEntity(worldIn, state);
 
 						if (te != null) {
 							te.readFromNBT(tetag);
-							world.setTileEntity(newPos, te);
+							worldIn.setTileEntity(newPos, te);
 						}
 
 					}
 
 				} else if (tag.hasKey("pickedEntity", NBT.TAG_COMPOUND)) {
-					if (player.canPlayerEdit(pos.offset(side), side, stack)) {
+					if (playerIn.canPlayerEdit(pos.offset(facing), facing, itemStackIn)) {
 
 						NBTTagCompound entityNbt = tag.getCompoundTag("pickedEntity");
 
-						Entity entity = EntityList.createEntityFromNBT(entityNbt, world);
-						entity.dimension = player.dimension;
+						Entity entity = EntityList.createEntityFromNBT(entityNbt, worldIn);
+						entity.dimension = playerIn.dimension;
 
-						pos = pos.offset(side);
+						pos = pos.offset(facing);
 
 						entity.setPosition(pos.getX(), pos.getY(), pos.getZ());
 
 						entity.fallDistance = 0f;
 
-						world.spawnEntityInWorld(entity);
+						worldIn.spawnEntityInWorld(entity);
 					}
 				}
 
-				return true;
+				return EnumActionResult.SUCCESS;
 			}
 
 		}
 
 
-		return false;
+		return EnumActionResult.PASS;
 	}
 
-	@Override public boolean itemInteractionForEntity(ItemStack stack, EntityPlayer player, EntityLivingBase entity) {
+	@Override public boolean itemInteractionForEntity(ItemStack itemStackIn, EntityPlayer playerIn, EntityLivingBase target, EnumHand hand) {
 		NBTTagCompound tag = new NBTTagCompound();
 
-		NBTTagCompound entityNbt = new NBTTagCompound();
-		entity.writeToNBT(entityNbt);
+		NBTTagCompound targetNbt = new NBTTagCompound();
+		target.writeToNBT(targetNbt);
 
-		entityNbt.setString("id", EntityList.getEntityString(entity));
-		entityNbt.setString("_entityName", entity.getName());
-		entityNbt.setFloat("_health", entity.getHealth());
-		entityNbt.setFloat("_maxHealth", entity.getMaxHealth());
-		tag.setTag("pickedEntity", entityNbt);
+		targetNbt.setString("id", EntityList.getEntityString(target));
+		targetNbt.setString("_targetName", target.getName());
+		targetNbt.setFloat("_health", target.getHealth());
+		targetNbt.setFloat("_maxHealth", target.getMaxHealth());
+		tag.setTag("pickedEntity", targetNbt);
 
 
-		EditUtil.getItemStackTag(stack).setTag("dataPool", tag);
+		EditUtil.getItemStackTag(itemStackIn).setTag("dataPool", tag);
 
-		int slot = player.inventory.currentItem;
+		int slot = playerIn.inventory.currentItem;
 
-		PacketHandler.INSTANCE.sendToServer(new MessageEntityPicker(slot, stack));
+		PacketHandler.INSTANCE.sendToServer(new MessageEntityPicker(slot, itemStackIn));
 
-		if (! player.isSneaking()) entity.setDead();
+		if (! playerIn.isSneaking()) target.setDead();
 
 		return true;
 	}

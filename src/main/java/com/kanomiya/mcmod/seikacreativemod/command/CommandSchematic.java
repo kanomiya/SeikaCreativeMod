@@ -6,13 +6,15 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.command.NumberInvalidException;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
-import net.minecraft.util.MathHelper;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.math.MathHelper;
+import net.minecraft.util.text.TextComponentString;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
 import com.kanomiya.mcmod.seikacreativemod.schematic.Schematic;
@@ -32,7 +34,8 @@ public class CommandSchematic extends CommandBase {
 		return "/schematic <load/test/save/oldsave> <Filename> <x> <y> <z> ([x2] [y2] [z2])";
 	}
 
-	@Override public void processCommand(ICommandSender sender, String[] args) {
+	@Override public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+	{
 		if (0 < args.length) {
 			if (args[0].equals("load")) {
 				if (args.length >= 5) {
@@ -69,22 +72,22 @@ public class CommandSchematic extends CommandBase {
 	public void missCommand(ICommandSender sender, int missId) {
 		switch (missId) {
 		case MISS_SCHEMATIC:
-			sender.addChatMessage(new ChatComponentText("[HELP] Mode: load/test"));
-			sender.addChatMessage(new ChatComponentText("[HELP] /schematic <Mode> <Filename> [x] [y] [z]"));
-			sender.addChatMessage(new ChatComponentText("[HELP] Mode: save"));
-			sender.addChatMessage(new ChatComponentText("[HELP] /schematic <Mode> <Filename> <x1> <y1> <z1> <x2> <y2> <z2>"));
+			sender.addChatMessage(new TextComponentString("[HELP] Mode: load/test"));
+			sender.addChatMessage(new TextComponentString("[HELP] /schematic <Mode> <Filename> [x] [y] [z]"));
+			sender.addChatMessage(new TextComponentString("[HELP] Mode: save"));
+			sender.addChatMessage(new TextComponentString("[HELP] /schematic <Mode> <Filename> <x1> <y1> <z1> <x2> <y2> <z2>"));
 			break;
 
 		case MISS_LOAD:
-			sender.addChatMessage(new ChatComponentText("[HELP] /schematic load <Filename> [x] [y] [z]"));
+			sender.addChatMessage(new TextComponentString("[HELP] /schematic load <Filename> [x] [y] [z]"));
 			break;
 
 		case MISS_TEST:
-			sender.addChatMessage(new ChatComponentText("[HELP] /schematic test <Filename> [x] [y] [z]"));
+			sender.addChatMessage(new TextComponentString("[HELP] /schematic test <Filename> [x] [y] [z]"));
 			break;
 
 		case MISS_SAVE:
-			sender.addChatMessage(new ChatComponentText("[HELP] /schematic save <Filename> <x1> <y1> <z1> <x2> <y2> <z2>"));
+			sender.addChatMessage(new TextComponentString("[HELP] /schematic save <Filename> <x1> <y1> <z1> <x2> <y2> <z2>"));
 			break;
 		}
 
@@ -113,10 +116,10 @@ public class CommandSchematic extends CommandBase {
 					e.printStackTrace(); return ;
 				}
 
-				sender.addChatMessage(new ChatComponentText("Building is Starting w: " + sch.width + " h: " + sch.height + " d: " + sch.depth));
+				sender.addChatMessage(new TextComponentString("Building is Starting w: " + sch.width + " h: " + sch.height + " d: " + sch.depth));
 				sch.build(sender.getEntityWorld(), new BlockPos(x, y, z));
 
-				sender.addChatMessage(new ChatComponentText("Building has done"));
+				sender.addChatMessage(new TextComponentString("Building has done"));
 			}
 		} catch (IOException e) { e.printStackTrace(); }
 
@@ -145,11 +148,11 @@ public class CommandSchematic extends CommandBase {
 					e.printStackTrace(); return ;
 				}
 
-				sender.addChatMessage(new ChatComponentText("Test is Starting w: " + sch.width + " h: " + sch.height + " d: " + sch.depth));
+				sender.addChatMessage(new TextComponentString("Test is Starting w: " + sch.width + " h: " + sch.height + " d: " + sch.depth));
 
 				sch.test(sender.getEntityWorld(), new BlockPos(x, y, z));
 
-				sender.addChatMessage(new ChatComponentText("Test has done"));
+				sender.addChatMessage(new TextComponentString("Test has done"));
 
 			}
 		} catch (IOException e) { e.printStackTrace(); }
@@ -185,7 +188,7 @@ public class CommandSchematic extends CommandBase {
 			NBTTagCompound schematic = Schematic.getNBT(sender.getEntityWorld(), x1,y1,z1, x2,y2,z2, old);
 			CompressedStreamTools.writeCompressed(schematic, new FileOutputStream(f));
 
-			sender.addChatMessage(new ChatComponentText("Saved schematic: " + f.getName()));
+			sender.addChatMessage(new TextComponentString("Saved schematic: " + f.getName()));
 
 		} catch (IOException e) { e.printStackTrace(); }
 	}

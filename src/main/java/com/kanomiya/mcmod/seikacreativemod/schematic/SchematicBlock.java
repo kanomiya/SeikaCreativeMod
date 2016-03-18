@@ -3,7 +3,7 @@ package com.kanomiya.mcmod.seikacreativemod.schematic;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 public class SchematicBlock {
 	public BlockPos pos;

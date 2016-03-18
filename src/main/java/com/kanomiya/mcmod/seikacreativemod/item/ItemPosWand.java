@@ -5,8 +5,11 @@ import java.util.List;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
@@ -20,28 +23,33 @@ public class ItemPosWand extends Item {
 		setUnlocalizedName("itemPosWand");
 	}
 
-	@Override public ItemStack onItemRightClick(ItemStack stackIn, World worldIn, EntityPlayer playerIn) {
-
+	@Override
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+	{
 		if (! playerIn.isSneaking()) {
-			if (EditUtil.hasPositon(stackIn)) {
-				int[] posArray = EditUtil.getPositionIntArray(stackIn);
+			if (EditUtil.hasPositon(itemStackIn)) {
+				int[] posArray = EditUtil.getPositionIntArray(itemStackIn);
 				playerIn.setPosition(EditUtil.intArrayToPosX(posArray), EditUtil.intArrayToPosY(posArray), EditUtil.intArrayToPosZ(posArray));
+
+				return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 			}
 
 		}
 
-		return stackIn;
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
 	}
 
-	@Override public boolean onItemUse(ItemStack stackIn, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (worldIn.isRemote) { return false; }
+	@Override
+	public EnumActionResult onItemUse(ItemStack itemStackIn, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if (worldIn.isRemote) { return EnumActionResult.PASS; }
 
 		if (playerIn.isSneaking()) {
-			EditUtil.setPositon(stackIn, pos);
-			return true;
+			EditUtil.setPositon(itemStackIn, pos);
+			return EnumActionResult.SUCCESS;
 		}
 
-		return false;
+		return EnumActionResult.PASS;
 	}
 
 

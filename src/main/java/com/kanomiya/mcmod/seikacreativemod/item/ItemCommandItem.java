@@ -16,13 +16,17 @@ import net.minecraft.nbt.NBTTagList;
 import net.minecraft.nbt.NBTTagString;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntityCommandBlock;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.util.ActionResult;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
+import net.minecraftforge.fml.server.FMLServerHandler;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
 import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
@@ -37,35 +41,35 @@ public class ItemCommandItem extends Item {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack item, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ) {
-		if (world.isRemote || ! player.isSneaking()) { return false; }
+	public EnumActionResult onItemUse(ItemStack itemStackIn, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if (worldIn.isRemote || ! playerIn.isSneaking()) { return EnumActionResult.PASS; }
 
-		if (world.getBlockState(pos) == null) { return false; }
-		Block b = world.getBlockState(pos).getBlock();
+		if (worldIn.getBlockState(pos) == null) { return EnumActionResult.PASS; }
+		Block b = worldIn.getBlockState(pos).getBlock();
 
-		NBTTagList list =  EditUtil.getItemStackTag(item).getTagList("CommandList", NBT.TAG_STRING);
+		NBTTagList list =  EditUtil.getItemStackTag(itemStackIn).getTagList("CommandList", NBT.TAG_STRING);
 
 		if (b == Blocks.command_block) {
-			TileEntityCommandBlock te = (TileEntityCommandBlock) world.getTileEntity(pos);
+			TileEntityCommandBlock te = (TileEntityCommandBlock) worldIn.getTileEntity(pos);
 			if (te != null) {
 				String command = te.getCommandBlockLogic().getCommand();
 
 				if (! command.equals("")) {
 					list.appendTag(new NBTTagString(command));
-					player.addChatMessage(new ChatComponentText("Command set: " + command));
+					playerIn.addChatMessage(new TextComponentString("Command set: " + command));
 				} else {
 					while (list.tagCount() > 0) {
 						list.removeTag(0);
 					}
-					player.addChatMessage(new ChatComponentText("Command reset"));
+					playerIn.addChatMessage(new TextComponentString("Command reset"));
 				}
 
-				EditUtil.getItemStackTag(item).setTag("CommandList", list);
-				return true;
+				EditUtil.getItemStackTag(itemStackIn).setTag("CommandList", list);
+				return EnumActionResult.SUCCESS;
 			}
 		} else if (b == Blocks.crafting_table) {
-			if (list.tagCount() == 0) { return false; }
+			if (list.tagCount() == 0) { return EnumActionResult.FAIL; }
 
 			Clipboard cp = Toolkit.getDefaultToolkit().getSystemClipboard();
 			String str = "";
@@ -76,31 +80,34 @@ public class ItemCommandItem extends Item {
 			StringSelection ss = new StringSelection(str);
 			cp.setContents(ss, ss);
 
-			player.addChatMessage(new ChatComponentText("Its Command is now in the Clipboard"));
+			playerIn.addChatMessage(new TextComponentString("Its Command is now in the Clipboard"));
 		}
 
-		return false;
+		return EnumActionResult.PASS;
 	}
 
 	@Override
-	public ItemStack onItemRightClick(ItemStack item, World world, EntityPlayer player) {
-		if(world.isRemote) { return item; }
+	public ActionResult<ItemStack> onItemRightClick(ItemStack itemStackIn, World worldIn, EntityPlayer playerIn, EnumHand hand)
+	{
+		if(worldIn.isRemote) { return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn); }
 
-		NBTTagList list =  EditUtil.getItemStackTag(item).getTagList("CommandList", NBT.TAG_STRING);
+		NBTTagList list =  EditUtil.getItemStackTag(itemStackIn).getTagList("CommandList", NBT.TAG_STRING);
 
-		if (! player.isSneaking() && list.tagCount() > 0){
-			MinecraftServer minecraftserver = MinecraftServer.getServer();
+		if (! playerIn.isSneaking() && list.tagCount() > 0){
+			MinecraftServer minecraftserver = FMLServerHandler.instance().getServer();
 
 			if (minecraftserver != null && minecraftserver.isCommandBlockEnabled()) {
 				ICommandManager icommandmanager = minecraftserver.getCommandManager();
 
 				for (int i=0; i<list.tagCount(); i++) {
-					icommandmanager.executeCommand(player, list.getStringTagAt(i));
+					icommandmanager.executeCommand(playerIn, list.getStringTagAt(i));
 				}
 			}
+
+			return new ActionResult<ItemStack>(EnumActionResult.SUCCESS, itemStackIn);
 		}
 
-		return item;
+		return new ActionResult<ItemStack>(EnumActionResult.PASS, itemStackIn);
 	}
 
 

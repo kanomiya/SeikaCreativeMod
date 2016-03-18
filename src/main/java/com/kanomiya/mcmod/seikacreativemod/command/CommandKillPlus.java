@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Vector;
 
 import net.minecraft.command.CommandBase;
+import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLiving;
@@ -19,9 +20,10 @@ import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.passive.EntityHorse;
 import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
-import net.minecraft.util.ChatComponentText;
+import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
+import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
 public class CommandKillPlus extends CommandBase {
@@ -34,7 +36,8 @@ public class CommandKillPlus extends CommandBase {
 		return "seikacreativemod.commands.killp.usage";
 	}
 
-	@Override public void processCommand(ICommandSender sender, String[] args) {
+	@Override public void execute(MinecraftServer server, ICommandSender sender, String[] args) throws CommandException
+	{
 		if (args.length == 0) { missCommand(sender); return; }
 
 		Vector<Class> vec = new Vector();
@@ -101,7 +104,7 @@ public class CommandKillPlus extends CommandBase {
 
 			}
 
-			sender.addChatMessage(new ChatComponentText("[KILLP] Killed " + killcount + " Entities (Length: " + length + "block)"));
+			sender.addChatMessage(new TextComponentString("[KILLP] Killed " + killcount + " Entities (Length: " + length + "block)"));
 		} else {
 			missCommand(sender); return;
 		}
@@ -109,8 +112,8 @@ public class CommandKillPlus extends CommandBase {
 	}
 
 	public void missCommand(ICommandSender sender) {
-		sender.addChatMessage(new ChatComponentText("[HELP] /killp [Mode] ([Length])"));
-		sender.addChatMessage(new ChatComponentText("[HELP] Mode: living/item/monster/slime/animal/tameable/bat/npc/merchant/tnt/projectile/player"));
+		sender.addChatMessage(new TextComponentString("[HELP] /killp [Mode] ([Length])"));
+		sender.addChatMessage(new TextComponentString("[HELP] Mode: living/item/monster/slime/animal/tameable/bat/npc/merchant/tnt/projectile/player"));
 	}
 
 }

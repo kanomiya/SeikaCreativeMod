@@ -6,7 +6,7 @@ import net.minecraft.init.Blocks;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 
 import com.kanomiya.mcmod.kanomiyacore.tileentity.IRedstoneMachine;
 import com.kanomiya.mcmod.kanomiyacore.tileentity.ITileEntityWithInventory;
@@ -303,6 +303,6 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 		previousRedstoneState = powered;
 	}
 
-	
+
 
 }

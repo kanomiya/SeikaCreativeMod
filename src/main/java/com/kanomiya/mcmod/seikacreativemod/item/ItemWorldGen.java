@@ -1,16 +1,18 @@
 package com.kanomiya.mcmod.seikacreativemod.item;
 
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
-
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.EnumActionResult;
 import net.minecraft.util.EnumFacing;
+import net.minecraft.util.EnumHand;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraft.world.chunk.Chunk;
 import net.minecraft.world.gen.feature.WorldGenTrees;
+
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
 
 public class ItemWorldGen extends Item {
 
@@ -22,16 +24,16 @@ public class ItemWorldGen extends Item {
 	}
 
 	@Override
-	public boolean onItemUse(ItemStack item, EntityPlayer player, World world, BlockPos pos, EnumFacing side,
-			float hitX, float hitY, float hitZ) {
-		if (world.isRemote) { return false; }
+	public EnumActionResult onItemUse(ItemStack itemStackIn, EntityPlayer playerIn, World worldIn, BlockPos pos, EnumHand hand, EnumFacing facing, float hitX, float hitY, float hitZ)
+	{
+		if (worldIn.isRemote) { return EnumActionResult.PASS; }
 
-		Chunk chunk = world.getChunkFromBlockCoords(pos);
+		Chunk chunk = worldIn.getChunkFromBlockCoords(pos);
 		int ix = chunk.xPosition *16;
 		int iz = chunk.zPosition *16;
 
 
-		switch (item.getItemDamage()) {
+		switch (itemStackIn.getItemDamage()) {
 		case 0:
 			WorldGenTrees tgen = new WorldGenTrees(true);
 			int rate = itemRand.nextInt(10) + 5;
@@ -39,16 +41,16 @@ public class ItemWorldGen extends Item {
 			for (int i=0; i<rate; i++) {
 				int gx = ix +itemRand.nextInt(15);
 				int gz = iz +itemRand.nextInt(15);
-				int gy = EditUtil.getYFacingTheSky(world, gx, pos.getY(), gz);
+				int gy = EditUtil.getYFacingTheSky(worldIn, gx, pos.getY(), gz);
 
-				tgen.generate(world, itemRand, new BlockPos(gx, gy, gz));
+				tgen.generate(worldIn, itemRand, new BlockPos(gx, gy, gz));
 			}
 
-			return true;
+			return EnumActionResult.SUCCESS;
 
 		}
 
-		return false;
+		return EnumActionResult.PASS;
 	}
 
 

@@ -11,11 +11,13 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
+import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
-import net.minecraft.util.AxisAlignedBB;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.AxisAlignedBB;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
+import net.minecraftforge.fml.server.FMLServerHandler;
 
 public class Schematic {
 	public short width, depth, height;
@@ -41,6 +43,8 @@ public class Schematic {
 			worldIn.setBlockState(pos, schBlock.block.getStateFromMeta(schBlock.meta), 2);
 		}
 
+		MinecraftServer server = FMLServerHandler.instance().getServer();
+
 		// TileEntities
 		for (int ii=0; ii<tileEntities.tagCount(); ii++) {
 			NBTTagCompound eachtag = tileEntities.getCompoundTagAt(ii);
@@ -49,7 +53,7 @@ public class Schematic {
 					eachtag.getInteger("y") +rlPos.getY(),
 					eachtag.getInteger("z") +rlPos.getZ());
 
-			worldIn.setTileEntity(pos, TileEntity.createAndLoadEntity(eachtag));
+			worldIn.setTileEntity(pos, TileEntity.createTileEntity(server, eachtag));
 		}
 
 		// Entities
@@ -239,7 +243,7 @@ public class Schematic {
 
 		// Entities
 		NBTTagList entityList = new NBTTagList();
-		List<Entity> list = world.getEntitiesWithinAABB(Entity.class, AxisAlignedBB.fromBounds(minX, minY, minZ, maxX, maxY, maxZ));
+		List<Entity> list = world.getEntitiesWithinAABB(Entity.class, new AxisAlignedBB(minX, minY, minZ, maxX, maxY, maxZ));
 
 		for (Entity entity: list) {
 			if (! (entity instanceof EntityPlayer)) {

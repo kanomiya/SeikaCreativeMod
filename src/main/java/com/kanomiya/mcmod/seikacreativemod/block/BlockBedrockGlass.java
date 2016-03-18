@@ -1,13 +1,14 @@
 package com.kanomiya.mcmod.seikacreativemod.block;
 
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-
 import net.minecraft.block.BlockGlass;
 import net.minecraft.block.material.Material;
+import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
-import net.minecraft.util.BlockPos;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
+
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
 
 public class BlockBedrockGlass extends BlockGlass {
 
@@ -24,7 +25,7 @@ public class BlockBedrockGlass extends BlockGlass {
 
 
 	@Override
-	public boolean canEntityDestroy(IBlockAccess world, BlockPos pos, Entity entity) {
+	public boolean canEntityDestroy(IBlockState state, IBlockAccess world, BlockPos pos, Entity entity) {
 		return (entity instanceof EntityPlayer);
 	}
 
