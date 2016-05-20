@@ -11,13 +11,11 @@ import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.nbt.NBTTagList;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
-import net.minecraftforge.fml.server.FMLServerHandler;
 
 public class Schematic {
 	public short width, depth, height;
@@ -43,7 +41,6 @@ public class Schematic {
 			worldIn.setBlockState(pos, schBlock.block.getStateFromMeta(schBlock.meta), 2);
 		}
 
-		MinecraftServer server = FMLServerHandler.instance().getServer();
 
 		// TileEntities
 		for (int ii=0; ii<tileEntities.tagCount(); ii++) {
@@ -53,7 +50,7 @@ public class Schematic {
 					eachtag.getInteger("y") +rlPos.getY(),
 					eachtag.getInteger("z") +rlPos.getZ());
 
-			worldIn.setTileEntity(pos, TileEntity.createTileEntity(server, eachtag));
+			worldIn.setTileEntity(pos, TileEntity.create(eachtag));
 		}
 
 		// Entities
@@ -71,10 +68,10 @@ public class Schematic {
 	}
 
 	public void test(World world, BlockPos rlPos) {
-		world.setBlockState(rlPos, Blocks.beacon.getDefaultState(), 2);
-		world.setBlockState(rlPos.add(width, 0, 0), Blocks.beacon.getDefaultState(), 2);
-		world.setBlockState(rlPos.add(0, 0, depth), Blocks.beacon.getDefaultState(), 2);
-		world.setBlockState(rlPos.add(width, 0, depth), Blocks.beacon.getDefaultState(), 2);
+		world.setBlockState(rlPos, Blocks.BEACON.getDefaultState(), 2);
+		world.setBlockState(rlPos.add(width, 0, 0), Blocks.BEACON.getDefaultState(), 2);
+		world.setBlockState(rlPos.add(0, 0, depth), Blocks.BEACON.getDefaultState(), 2);
+		world.setBlockState(rlPos.add(width, 0, depth), Blocks.BEACON.getDefaultState(), 2);
 	}
 
 
@@ -174,16 +171,16 @@ public class Schematic {
 		return tag;
 	}
 
-	public static NBTTagCompound getNBT(World world, int x1, int y1, int z1, int x2, int y2, int z2, boolean old) {
+	public static NBTTagCompound getNBT(World world, AxisAlignedBB aabb, boolean old) {
 		NBTTagCompound tag = new NBTTagCompound();
 
 		// Positions
-		int minX = Math.min(x1, x2);
-		int maxX = Math.max(x1, x2);
-		int minY = Math.min(y1, y2);
-		int maxY = Math.max(y1, y2);
-		int minZ = Math.min(z1, z2);
-		int maxZ = Math.max(z1, z2);
+		int minX = (int) aabb.minX;
+		int maxX = (int) aabb.maxX;
+		int minY = (int) aabb.minY;
+		int maxY = (int) aabb.maxY;
+		int minZ = (int) aabb.minZ;
+		int maxZ = (int) aabb.maxZ;
 
 		int height = maxY -minY +1;
 		int depth = maxZ -minZ +1;

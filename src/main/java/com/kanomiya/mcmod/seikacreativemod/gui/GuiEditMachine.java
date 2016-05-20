@@ -2,10 +2,10 @@ package com.kanomiya.mcmod.seikacreativemod.gui;
 
 import net.minecraft.client.gui.GuiButton;
 import net.minecraft.client.gui.inventory.GuiContainer;
+import net.minecraft.client.resources.I18n;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.player.InventoryPlayer;
 import net.minecraft.util.ResourceLocation;
-import net.minecraft.util.text.translation.I18n;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
 
@@ -81,7 +81,7 @@ public class GuiEditMachine extends GuiContainer {
 	@Override
 	protected void drawGuiContainerForegroundLayer(int par1, int par2) {
 		fontRendererObj.drawString("EditMachine", 8, 6, 4210752);
-		fontRendererObj.drawString(I18n.translateToLocal("container.inventory"), 16, ySize - 94, 4210752);
+		fontRendererObj.drawString(I18n.format("container.inventory"), 16, ySize - 94, 4210752);
 
 		fontRendererObj.drawString("Target", 105, 6, 4210752);
 		fontRendererObj.drawString("Put", 155, 6, 4210752);

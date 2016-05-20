@@ -30,6 +30,6 @@ public class BlockBedrockLever extends BlockLever {
 	}
 
 	@Override
-	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighbor) { }
+	public void neighborChanged(IBlockState state, World worldIn, BlockPos pos, Block blockIn) {  }
 
 }

@@ -10,7 +10,7 @@ public class TileEntityPreparation extends TileEntityFill {
 
 	public TileEntityPreparation() {
 		super();
-		setTgtState(Blocks.air.getDefaultState());
+		setTgtState(Blocks.AIR.getDefaultState());
 		sidelength = 0;
 		setmode = true;
 	}

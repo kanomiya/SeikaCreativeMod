@@ -15,8 +15,10 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
+import net.minecraft.util.SoundCategory;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
@@ -25,13 +27,13 @@ import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityPreparation;
 public class BlockPreparation extends BlockContainer {
 
 	public BlockPreparation() {
-		super(Material.ground);
+		super(Material.GROUND);
 		setCreativeTab(SeikaCreativeMod.tabSeika);
 		setUnlocalizedName("blockPreparation");
 
 		setHardness(0.5f);
 		setResistance(1.0f);
-		setStepSound(SoundType.STONE);
+		setSoundType(SoundType.STONE);
 	}
 
 
@@ -58,7 +60,7 @@ public class BlockPreparation extends BlockContainer {
 							"Set the target as "
 									+ block.getLocalizedName()));
 				} else {
-					te.setPutState(block.getStateFromMeta(heldItem.getMetadata()));
+					te.setPutState(Block.getStateById(heldItem.getMetadata()));
 
 					playerIn.addChatMessage(new TextComponentString(
 							"Set new block as "
@@ -67,7 +69,7 @@ public class BlockPreparation extends BlockContainer {
 
 				te.setmode = ! te.setmode;
 
-			} else if (heldItem.getItem() == Items.gunpowder) {
+			} else if (heldItem.getItem() == Items.GUNPOWDER) {
 				if (te.sidelength < 96) {
 
 					EntityPlayerMP emp = (EntityPlayerMP) playerIn;
@@ -84,8 +86,8 @@ public class BlockPreparation extends BlockContainer {
 							"The power is maximum(96)."));
 				}
 
-			} else if (heldItem.getItem() == Items.water_bucket) {
-				Block block = Blocks.water;
+			} else if (heldItem.getItem() == Items.WATER_BUCKET) {
+				Block block = Blocks.WATER;
 
 				if (te.setmode) {
 					te.setTgtState(block.getDefaultState());
@@ -103,8 +105,8 @@ public class BlockPreparation extends BlockContainer {
 
 				te.setmode = ! te.setmode;
 
-			} else if (heldItem.getItem() == Items.lava_bucket) {
-				Block block = Blocks.lava;
+			} else if (heldItem.getItem() == Items.LAVA_BUCKET) {
+				Block block = Blocks.LAVA;
 
 				if (te.setmode) {
 					te.setTgtState(block.getDefaultState());
@@ -127,11 +129,11 @@ public class BlockPreparation extends BlockContainer {
 
 		} else {
 			if (te.setmode) {
-				te.setTgtState(Blocks.air.getDefaultState());
+				te.setTgtState(Blocks.AIR.getDefaultState());
 				playerIn.addChatMessage(new TextComponentString(
 						"Set the target as All"));
 			} else {
-				te.setPutState(Blocks.air.getDefaultState());
+				te.setPutState(Blocks.AIR.getDefaultState());
 				playerIn.addChatMessage(new TextComponentString(
 						"Set new block as Air"));
 			}
@@ -144,10 +146,10 @@ public class BlockPreparation extends BlockContainer {
 	}
 
 
-
 	@Override
-	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock) {
-		onBlockAdded(world, pos, state);
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor)
+	{
+		if (world instanceof World) onBlockAdded((World) world, pos, world.getBlockState(pos)); // VELIF
 	}
 
 	@Override
@@ -162,8 +164,9 @@ public class BlockPreparation extends BlockContainer {
 			IBlockState putBlock = te.getPutState();
 			IBlockState delBlock = te.getTgtState();
 
-			if ((delBlock.getBlock() == Blocks.air && putBlock.getBlock() != Blocks.air) || (r == 0)) {
-				world.playAuxSFX(1001, pos, 0);
+			if ((delBlock.getBlock() == Blocks.AIR && putBlock.getBlock() != Blocks.AIR) || (r == 0)) {
+				SoundType soundtype = putBlock.getBlock().getSoundType();
+				world.playSound(pos.getX(), pos.getY(), pos.getZ(), soundtype.getPlaceSound(), SoundCategory.BLOCKS, (soundtype.getVolume() + 1.0F) / 2.0F, soundtype.getPitch() * 0.8F, true);
 				return ;
 			}
 
@@ -173,7 +176,7 @@ public class BlockPreparation extends BlockContainer {
 						BlockPos newPos = pos.add(i,ii,iii);
 
 						if (! world.isAirBlock(newPos)) {
-							if (delBlock.getBlock() == Blocks.air
+							if (delBlock.getBlock() == Blocks.AIR
 									|| world.getBlockState(newPos) == delBlock) {
 
 								world.setBlockState(newPos, putBlock);

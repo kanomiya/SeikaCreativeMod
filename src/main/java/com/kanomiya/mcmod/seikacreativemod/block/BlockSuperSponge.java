@@ -13,7 +13,7 @@ public class BlockSuperSponge extends Block {
 	public static int EDIT_LIMIT;
 
 	public BlockSuperSponge() {
-		super(Material.sponge);
+		super(Material.SPONGE);
 		setCreativeTab(SeikaCreativeMod.tabSeika);
 		setUnlocalizedName("blockSuperSponge");
 	}

@@ -16,6 +16,7 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
@@ -26,13 +27,13 @@ public class BlockFill extends BlockContainer {
 	public static int EDIT_MINY = 0;
 
 	public BlockFill() {
-		super(Material.ground);
+		super(Material.GROUND);
 		setCreativeTab(SeikaCreativeMod.tabSeika);
 		setUnlocalizedName("blockFill");
 
 		setHardness(0.5f);
 		setResistance(1.0f);
-		setStepSound(SoundType.STONE);
+		setSoundType(SoundType.STONE);
 
 	}
 
@@ -58,20 +59,20 @@ public class BlockFill extends BlockContainer {
 						"Set new block as "
 								+ block.getLocalizedName()));
 
-			} else if (heldItem.getItem() == Items.water_bucket) {
-				te.setPutState(Blocks.water.getDefaultState());
+			} else if (heldItem.getItem() == Items.WATER_BUCKET) {
+				te.setPutState(Blocks.WATER.getDefaultState());
 
 				playerIn.addChatMessage(new TextComponentString(
 						"Set new block as "
 								+ te.getPutState().getBlock().getLocalizedName()));
 
-			} else if (heldItem.getItem() == Items.lava_bucket) {
-				te.setPutState(Blocks.lava.getDefaultState());
+			} else if (heldItem.getItem() == Items.LAVA_BUCKET) {
+				te.setPutState(Blocks.LAVA.getDefaultState());
 
 				playerIn.addChatMessage(new TextComponentString(
 						"Set new block as "
 								+ te.getPutState().getBlock().getLocalizedName()));
-			} else if (heldItem.getItem() == Items.gunpowder) {
+			} else if (heldItem.getItem() == Items.GUNPOWDER) {
 				te.sidelength ++;
 
 				playerIn.addChatMessage(new TextComponentString(
@@ -83,7 +84,7 @@ public class BlockFill extends BlockContainer {
 
 		}
 		else {
-			te.setPutState(Blocks.air.getDefaultState());
+			te.setPutState(Blocks.AIR.getDefaultState());
 			playerIn.addChatMessage(new TextComponentString(
 					"Set new block as Air"));
 		}
@@ -95,8 +96,9 @@ public class BlockFill extends BlockContainer {
 
 
 	@Override
-	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock) {
-		onBlockAdded(world, pos, state);
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor)
+	{
+		if (world instanceof World) onBlockAdded((World) world, pos, world.getBlockState(pos)); // VELIF
 	}
 
 	@Override public void onBlockAdded(World world, BlockPos pos, IBlockState state) {

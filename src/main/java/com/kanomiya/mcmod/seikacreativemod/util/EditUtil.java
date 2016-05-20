@@ -7,19 +7,17 @@ import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
-import net.minecraft.server.MinecraftServer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
 import net.minecraftforge.fluids.IFluidContainerItem;
-import net.minecraftforge.fml.server.FMLServerHandler;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
 import com.kanomiya.mcmod.seikacreativemod.item.ItemPipette;
 
 public class EditUtil {
-	protected static final IBlockState airState = Blocks.air.getDefaultState();
+	protected static final IBlockState airState = Blocks.AIR.getDefaultState();
 	protected static final int airStateId = Block.getStateId(airState);
 
 	public static int getYFacingTheSky(World world, int x, int y, int z) {
@@ -103,7 +101,7 @@ public class EditUtil {
 
 		}
 
-		return Blocks.air.getDefaultState();
+		return Blocks.AIR.getDefaultState();
 	}
 
 	public static boolean hasTileEntity(ItemStack stackIn) {
@@ -122,11 +120,7 @@ public class EditUtil {
 			if (item instanceof ItemPipette)  {
 				NBTTagCompound nbt = getItemStackTag(stackIn).getCompoundTag("dataPool").getCompoundTag("tileentity");
 
-				// VELIF
-
-				MinecraftServer server = FMLServerHandler.instance().getServer();
-
-				return TileEntity.createTileEntity(server, nbt);
+				return TileEntity.create(nbt);
 			}
 
 		}
@@ -282,7 +276,7 @@ public class EditUtil {
 
 	public static int box(World world, BlockPos from, BlockPos to, IBlockState put, TileEntity putTileEntity, boolean isDemo) {
 		if (from == null || to == null) { return -1; }
-		if (Block.getStateId(put) == Block.getStateId(Blocks.air.getDefaultState())) { return -1; }
+		if (Block.getStateId(put) == Block.getStateId(Blocks.AIR.getDefaultState())) { return -1; }
 
 
 		int minX = Math.min(from.getX(), to.getX());

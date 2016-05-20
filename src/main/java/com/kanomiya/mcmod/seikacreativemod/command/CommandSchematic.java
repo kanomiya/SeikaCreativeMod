@@ -12,8 +12,8 @@ import net.minecraft.command.NumberInvalidException;
 import net.minecraft.nbt.CompressedStreamTools;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.server.MinecraftServer;
+import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.math.MathHelper;
 import net.minecraft.util.text.TextComponentString;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
@@ -105,13 +105,13 @@ public class CommandSchematic extends CommandBase {
 				// Positions
 				if (sender.getCommandSenderEntity() == null) { return ; }
 				BlockPos pos = sender.getCommandSenderEntity().getPosition();
-				int x, y, z;
+				double x, y, z;
 				x = y = z = 0;
 
 				try {
-					x = MathHelper.floor_double(parseCoordinate(pos.getX(), xyzplus[0], true).func_179628_a());
-					y = MathHelper.floor_double(parseCoordinate(pos.getY(), xyzplus[1], true).func_179628_a());
-					z = MathHelper.floor_double(parseCoordinate(pos.getZ(), xyzplus[2], true).func_179628_a());
+					x = parseDouble(pos.getX(), xyzplus[0], true);
+					y = parseDouble(pos.getY(), xyzplus[1], false);
+					x = parseDouble(pos.getZ(), xyzplus[2], true);
 				} catch (NumberInvalidException e) {
 					e.printStackTrace(); return ;
 				}
@@ -137,13 +137,13 @@ public class CommandSchematic extends CommandBase {
 				// Positions
 				if (sender.getCommandSenderEntity() == null) { return ; }
 				BlockPos pos = sender.getCommandSenderEntity().getPosition();
-				int x, y, z;
+				double x, y, z;
 				x = y = z = 0;
 
 				try {
-					x = MathHelper.floor_double(parseCoordinate(pos.getX(), xyzplus[0], true).func_179628_a());
-					y = MathHelper.floor_double(parseCoordinate(pos.getY(), xyzplus[1], true).func_179628_a());
-					z = MathHelper.floor_double(parseCoordinate(pos.getZ(), xyzplus[2], true).func_179628_a());
+					x = parseDouble(pos.getX(), xyzplus[0], true);
+					y = parseDouble(pos.getY(), xyzplus[1], false);
+					x = parseDouble(pos.getZ(), xyzplus[2], true);
 				} catch (NumberInvalidException e) {
 					e.printStackTrace(); return ;
 				}
@@ -168,24 +168,26 @@ public class CommandSchematic extends CommandBase {
 			// Positions
 			if (sender.getCommandSenderEntity() == null) { return ; }
 			BlockPos pos = sender.getCommandSenderEntity().getPosition();
-			int x1, y1, z1;
+			double x1, y1, z1;
 			x1 = y1 = z1 = 0;
-			int x2, y2, z2;
+
+			double x2, y2, z2;
 			x2 = y2 = z2 = 0;
 
 			try {
-				x1 = MathHelper.floor_double(parseCoordinate(pos.getX(), xyz1[0], true).func_179628_a());
-				y1 = MathHelper.floor_double(parseCoordinate(pos.getY(), xyz1[1], true).func_179628_a());
-				z1 = MathHelper.floor_double(parseCoordinate(pos.getZ(), xyz1[2], true).func_179628_a());
+				x1 = parseDouble(pos.getX(), xyz1[0], true);
+				y1 = parseDouble(pos.getY(), xyz1[1], false);
+				x1 = parseDouble(pos.getZ(), xyz1[2], true);
 
-				x2 = MathHelper.floor_double(parseCoordinate(pos.getX(), xyz2[0], true).func_179628_a());
-				y2 = MathHelper.floor_double(parseCoordinate(pos.getY(), xyz2[1], true).func_179628_a());
-				z2 = MathHelper.floor_double(parseCoordinate(pos.getZ(), xyz2[2], true).func_179628_a());
+				x2 = parseDouble(pos.getX(), xyz2[0], true);
+				y2 = parseDouble(pos.getY(), xyz2[1], false);
+				x2 = parseDouble(pos.getZ(), xyz2[2], true);
+
 			} catch (NumberInvalidException e) {
 				e.printStackTrace(); return ;
 			}
 
-			NBTTagCompound schematic = Schematic.getNBT(sender.getEntityWorld(), x1,y1,z1, x2,y2,z2, old);
+			NBTTagCompound schematic = Schematic.getNBT(sender.getEntityWorld(), new AxisAlignedBB(x1,y1,z1, x2,y2,z2), old);
 			CompressedStreamTools.writeCompressed(schematic, new FileOutputStream(f));
 
 			sender.addChatMessage(new TextComponentString("Saved schematic: " + f.getName()));

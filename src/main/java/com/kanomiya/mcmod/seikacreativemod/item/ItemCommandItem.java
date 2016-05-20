@@ -50,7 +50,7 @@ public class ItemCommandItem extends Item {
 
 		NBTTagList list =  EditUtil.getItemStackTag(itemStackIn).getTagList("CommandList", NBT.TAG_STRING);
 
-		if (b == Blocks.command_block) {
+		if (b == Blocks.COMMAND_BLOCK) {
 			TileEntityCommandBlock te = (TileEntityCommandBlock) worldIn.getTileEntity(pos);
 			if (te != null) {
 				String command = te.getCommandBlockLogic().getCommand();
@@ -68,7 +68,7 @@ public class ItemCommandItem extends Item {
 				EditUtil.getItemStackTag(itemStackIn).setTag("CommandList", list);
 				return EnumActionResult.SUCCESS;
 			}
-		} else if (b == Blocks.crafting_table) {
+		} else if (b == Blocks.CRAFTING_TABLE) {
 			if (list.tagCount() == 0) { return EnumActionResult.FAIL; }
 
 			Clipboard cp = Toolkit.getDefaultToolkit().getSystemClipboard();

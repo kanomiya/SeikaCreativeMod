@@ -13,7 +13,7 @@ import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
 public class BlockBedrockGlass extends BlockGlass {
 
 	public BlockBedrockGlass() {
-		super(Material.rock, false);
+		super(Material.ROCK, false);
 
 		setBlockUnbreakable();
 

@@ -14,7 +14,7 @@ public class TileEntityFill extends TileEntity implements IRedstoneMachine {
 
 	public TileEntityFill() {
 		super();
-		setPutState(Blocks.air.getDefaultState());
+		setPutState(Blocks.AIR.getDefaultState());
 		sidelength = -1;
 	}
 

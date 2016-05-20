@@ -12,12 +12,12 @@ import net.minecraft.world.IBlockAccess;
 public class BlockBedrockDoor extends BlockDoor {
 
 	public BlockBedrockDoor() {
-		super(Material.rock);
+		super(Material.ROCK);
 
 		setBlockUnbreakable();
 
 		setResistance(6000000.0F);
-		setStepSound(SoundType.STONE);
+		setSoundType(SoundType.STONE);
 		setUnlocalizedName("blockBedrockDoor");
 		disableStats();
 	}

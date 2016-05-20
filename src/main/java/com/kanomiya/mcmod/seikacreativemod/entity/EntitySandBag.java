@@ -39,7 +39,7 @@ public class EntitySandBag extends EntityLiving {
 
 		if (owner != null && damage > 0.0f) {
 			if (owner.isSneaking()) {
-				entityDropItem(new ItemStack(Items.spawn_egg, 1, EntityList.getEntityID(this)), 1.0f);
+				entityDropItem(new ItemStack(Items.SPAWN_EGG, 1, EntityList.getEntityID(this)), 1.0f);
 				setDead();
 				return bool;
 			}
@@ -68,7 +68,7 @@ public class EntitySandBag extends EntityLiving {
 			EntityPlayer player = (EntityPlayer) entity;
 			ItemStack is = player.getHeldItemMainhand();
 
-			if (is != null && is.getItem() == Item.getItemFromBlock(Blocks.tnt)) {
+			if (is != null && is.getItem() == Item.getItemFromBlock(Blocks.TNT)) {
 				if (! notifyOnFalling) {
 					notifyOnFalling = true;
 					player.addChatMessage(new TextComponentString(((hasCustomName()) ? getCustomNameTag(): "SandBag") +

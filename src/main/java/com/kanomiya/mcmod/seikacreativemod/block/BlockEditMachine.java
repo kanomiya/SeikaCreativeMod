@@ -1,6 +1,5 @@
 package com.kanomiya.mcmod.seikacreativemod.block;
 
-import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
 import net.minecraft.block.material.Material;
@@ -12,6 +11,7 @@ import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
+import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
@@ -20,13 +20,13 @@ import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityEditMachine;
 public class BlockEditMachine extends BlockContainer {
 
 	public BlockEditMachine() {
-		super(Material.ground);
+		super(Material.GROUND);
 		setCreativeTab(SeikaCreativeMod.tabSeika);
 		setUnlocalizedName("blockEditMachine");
 
 		setHardness(0.5f);
 		setResistance(1.0f);
-		setStepSound(SoundType.STONE);
+		setSoundType(SoundType.STONE);
 
 	}
 
@@ -47,8 +47,9 @@ public class BlockEditMachine extends BlockContainer {
 
 
 	@Override
-	public void onNeighborBlockChange(World world, BlockPos pos, IBlockState state, Block neighborBlock) {
-		onBlockAdded(world, pos, state);
+	public void onNeighborChange(IBlockAccess world, BlockPos pos, BlockPos neighbor)
+	{
+		if (world instanceof World) onBlockAdded((World) world, pos, world.getBlockState(pos)); // VELIF
 	}
 
 	@Override

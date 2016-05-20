@@ -109,10 +109,12 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 	}
 
 	@Override
-	public void writeToNBT(NBTTagCompound nbt) {
-		super.writeToNBT(nbt);
+	public NBTTagCompound writeToNBT(NBTTagCompound nbt) {
+		nbt = super.writeToNBT(nbt);
 
 		nbt.setInteger("editMode", mode);
+
+		return nbt;
 	}
 
 	// *-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*-*
@@ -162,7 +164,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 		int count = -1;
 		switch (mode) {
 		case MODE_REPLACE:
-			if (from != null && to != null && (target != Blocks.air.getDefaultState() || put != Blocks.air.getDefaultState())) {
+			if (from != null && to != null && (target != Blocks.AIR.getDefaultState() || put != Blocks.AIR.getDefaultState())) {
 				count = EditUtil.replace(worldObj, from, to, target, put, putTileEntity, true);
 			}
 			break;
@@ -170,7 +172,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 		case MODE_FILL:
 			needTarget = needTo = false;
 
-			if (from != null && put != Blocks.air.getDefaultState()) {
+			if (from != null && put != Blocks.AIR.getDefaultState()) {
 				count = EditUtil.fill(worldObj, from, put, putTileEntity, true);
 			}
 			break;
@@ -179,7 +181,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 		case MODE_BOX:
 			needTarget = false;
 
-			if (from != null && to != null && put != Blocks.air.getDefaultState()) {
+			if (from != null && to != null && put != Blocks.AIR.getDefaultState()) {
 				count = EditUtil.box(worldObj, from, to, put, putTileEntity, true);
 			}
 

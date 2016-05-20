@@ -14,13 +14,13 @@ import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
 public class BlockBedrockLight extends Block {
 
 	public BlockBedrockLight() {
-		super(Material.rock);
+		super(Material.ROCK);
 
 		setBlockUnbreakable();
 
 		setResistance(6000000.0F);
 		setLightLevel(1.0f);
-		setStepSound(SoundType.STONE);
+		setSoundType(SoundType.STONE);
 		setUnlocalizedName("blockBedrockLight");
 		setCreativeTab(SeikaCreativeMod.tabSeika);
 		disableStats();
