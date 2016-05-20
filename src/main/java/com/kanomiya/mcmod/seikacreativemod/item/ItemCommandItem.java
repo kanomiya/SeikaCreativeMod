@@ -26,7 +26,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-import net.minecraftforge.fml.server.FMLServerHandler;
 
 import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
 import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
@@ -80,7 +79,7 @@ public class ItemCommandItem extends Item {
 			StringSelection ss = new StringSelection(str);
 			cp.setContents(ss, ss);
 
-			playerIn.addChatMessage(new TextComponentString("Its Command is now in the Clipboard"));
+			playerIn.addChatMessage(new TextComponentString("The Command is now in your Clipboard"));
 		}
 
 		return EnumActionResult.PASS;
@@ -94,7 +93,7 @@ public class ItemCommandItem extends Item {
 		NBTTagList list =  EditUtil.getItemStackTag(itemStackIn).getTagList("CommandList", NBT.TAG_STRING);
 
 		if (! playerIn.isSneaking() && list.tagCount() > 0){
-			MinecraftServer minecraftserver = FMLServerHandler.instance().getServer();
+			MinecraftServer minecraftserver = worldIn.getMinecraftServer();
 
 			if (minecraftserver != null && minecraftserver.isCommandBlockEnabled()) {
 				ICommandManager icommandmanager = minecraftserver.getCommandManager();
