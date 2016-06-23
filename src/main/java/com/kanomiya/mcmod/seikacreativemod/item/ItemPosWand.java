@@ -2,6 +2,9 @@ package com.kanomiya.mcmod.seikacreativemod.item;
 
 import java.util.List;
 
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
@@ -11,9 +14,6 @@ import net.minecraft.util.EnumFacing;
 import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
-
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
 
 public class ItemPosWand extends Item {
 
@@ -53,7 +53,8 @@ public class ItemPosWand extends Item {
 	}
 
 
-	@Override public void addInformation(ItemStack stackIn, EntityPlayer player, List list, boolean advanced) {
+	@Override
+	public void addInformation(ItemStack stackIn, EntityPlayer player, List<String> list, boolean advanced) {
 
 		if (EditUtil.hasPositon(stackIn)) {
 			int[] posArray = EditUtil.getPositionIntArray(stackIn);
@@ -66,7 +67,8 @@ public class ItemPosWand extends Item {
 	}
 
 
-	@Override public boolean hasEffect(ItemStack stackIn) {
+	@Override
+	public boolean hasEffect(ItemStack stackIn) {
 		return EditUtil.hasPositon(stackIn);
 	}
 

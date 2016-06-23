@@ -50,7 +50,7 @@ public class Schematic {
 					eachtag.getInteger("y") +rlPos.getY(),
 					eachtag.getInteger("z") +rlPos.getZ());
 
-			worldIn.setTileEntity(pos, TileEntity.create(eachtag));
+			worldIn.setTileEntity(pos, TileEntity.func_190200_a(worldIn, eachtag));
 		}
 
 		// Entities

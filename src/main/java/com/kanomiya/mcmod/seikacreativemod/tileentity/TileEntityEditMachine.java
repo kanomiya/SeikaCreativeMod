@@ -1,5 +1,11 @@
 package com.kanomiya.mcmod.seikacreativemod.tileentity;
 
+import com.kanomiya.mcmod.kanomiyacore.tileentity.IRedstoneMachine;
+import com.kanomiya.mcmod.kanomiyacore.tileentity.ITileEntityWithInventory;
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.gui.GuiHandler;
+import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
+
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.init.Blocks;
@@ -7,12 +13,6 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.nbt.NBTTagCompound;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
-
-import com.kanomiya.mcmod.kanomiyacore.tileentity.IRedstoneMachine;
-import com.kanomiya.mcmod.kanomiyacore.tileentity.ITileEntityWithInventory;
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.gui.GuiHandler;
-import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
 
 public class TileEntityEditMachine extends ITileEntityWithInventory implements IRedstoneMachine {
 	public static final int MODE_REPLACE = 0;
@@ -52,7 +52,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 
 		IBlockState target = EditUtil.getBlockState(targetStack);
 		IBlockState put = EditUtil.getBlockState(putStack);
-		TileEntity putTileEntity = EditUtil.getTileEntity(putStack);
+		TileEntity putTileEntity = EditUtil.getTileEntity(worldObj, putStack);
 
 		BlockPos from = EditUtil.getPositon(fromStack);
 		BlockPos to = EditUtil.getPositon(toStack);
@@ -151,7 +151,7 @@ public class TileEntityEditMachine extends ITileEntityWithInventory implements I
 
 		IBlockState target = EditUtil.getBlockState(items[0]);
 		IBlockState put = EditUtil.getBlockState(items[1]);
-		TileEntity putTileEntity = EditUtil.getTileEntity(items[1]);
+		TileEntity putTileEntity = EditUtil.getTileEntity(worldObj, items[1]);
 
 		BlockPos from = EditUtil.getPositon(items[2]);
 		BlockPos to = EditUtil.getPositon(items[3]);

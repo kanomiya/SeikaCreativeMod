@@ -16,9 +16,9 @@ import net.minecraft.entity.item.EntityItem;
 import net.minecraft.entity.item.EntityTNTPrimed;
 import net.minecraft.entity.monster.EntitySlime;
 import net.minecraft.entity.monster.IMob;
+import net.minecraft.entity.passive.EntityAnimal;
 import net.minecraft.entity.passive.EntityBat;
 import net.minecraft.entity.passive.EntityHorse;
-import net.minecraft.entity.passive.IAnimals;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.AxisAlignedBB;
@@ -40,7 +40,7 @@ public class CommandKillPlus extends CommandBase {
 	{
 		if (args.length == 0) { missCommand(sender); return; }
 
-		Vector<Class> vec = new Vector();
+		Vector<Class<?>> vec = new Vector<>();
 
 		if (args[0].equals("living")) { // EntityLiving
 			vec.add(EntityLiving.class);
@@ -50,8 +50,8 @@ public class CommandKillPlus extends CommandBase {
 			vec.add(IMob.class);
 		} else if (args[0].equals("slime")) { // EntitySlime
 			vec.add(EntitySlime.class);
-		} else if (args[0].equals("animal")) { // IAnimals
-			vec.add(IAnimals.class);
+		} else if (args[0].equals("animal")) { // EntityAnimal
+			vec.add(EntityAnimal.class);
 		} else if (args[0].equals("tameable")) { // IEntityOwnable || EntityHorse
 			vec.add(IEntityOwnable.class);
 			vec.add(EntityHorse.class);
@@ -91,9 +91,9 @@ public class CommandKillPlus extends CommandBase {
 			for (Entity entity: list) {
 				boolean flag = false;
 
-				Class entityClass = entity.getClass();
-				for (Class c: vec) {
-					flag = c.isAssignableFrom(entityClass);
+				Class<? extends Entity> entityClass = entity.getClass();
+				for (Class<?> c: vec) {
+					flag = c.isAssignableFrom(entityClass); // EntityCreeper EntityPig
 					if (flag) break;
 				}
 

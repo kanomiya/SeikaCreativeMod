@@ -2,6 +2,11 @@ package com.kanomiya.mcmod.seikacreativemod.item;
 
 import java.util.List;
 
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.network.MessageEntityPicker;
+import com.kanomiya.mcmod.seikacreativemod.network.PacketHandler;
+import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.entity.Entity;
@@ -19,11 +24,6 @@ import net.minecraft.util.EnumHand;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
-
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.network.MessageEntityPicker;
-import com.kanomiya.mcmod.seikacreativemod.network.PacketHandler;
-import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
 
 public class ItemPipette extends Item {
 
@@ -148,7 +148,8 @@ public class ItemPipette extends Item {
 		return true;
 	}
 
-	@Override public void addInformation(ItemStack item, EntityPlayer player, List list, boolean bool) {
+	@Override
+	public void addInformation(ItemStack item, EntityPlayer player, List<String> list, boolean bool) {
 		if (hasEffect(item)) {
 			NBTTagCompound tag = EditUtil.getItemStackTag(item).getCompoundTag("dataPool");
 

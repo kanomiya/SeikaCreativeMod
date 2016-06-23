@@ -1,5 +1,8 @@
 package com.kanomiya.mcmod.seikacreativemod.block;
 
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityPreparation;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockContainer;
 import net.minecraft.block.SoundType;
@@ -20,9 +23,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.World;
 
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityPreparation;
-
 public class BlockPreparation extends BlockContainer {
 
 	public BlockPreparation() {
@@ -42,11 +42,13 @@ public class BlockPreparation extends BlockContainer {
 
 	@Override
 	public boolean onBlockActivated(World worldIn, BlockPos pos, IBlockState state, EntityPlayer playerIn, EnumHand hand, ItemStack heldItem, EnumFacing side, float hitX, float hitY, float hitZ) {
-		if (worldIn.isRemote) { return false; }
+		if (worldIn.isRemote) return false;
+        if (hand == EnumHand.OFF_HAND) return false;
 
 		TileEntityPreparation te = (TileEntityPreparation) worldIn.getTileEntity(pos);
 
-		if (te == null) { return false; }
+		if (te == null) return false;
+
 
 		if (heldItem != null) {
 			if (heldItem.getItem() instanceof ItemBlock) {

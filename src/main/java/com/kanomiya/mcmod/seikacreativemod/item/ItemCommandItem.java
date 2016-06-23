@@ -5,6 +5,9 @@ import java.awt.datatransfer.Clipboard;
 import java.awt.datatransfer.StringSelection;
 import java.util.List;
 
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
+
 import net.minecraft.block.Block;
 import net.minecraft.command.ICommandManager;
 import net.minecraft.creativetab.CreativeTabs;
@@ -26,9 +29,6 @@ import net.minecraft.world.World;
 import net.minecraftforge.common.util.Constants.NBT;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.util.EditUtil;
 
 public class ItemCommandItem extends Item {
 
@@ -116,7 +116,7 @@ public class ItemCommandItem extends Item {
 
 
 	@Override
-	public void addInformation(ItemStack item, EntityPlayer player, List list, boolean bool) {
+	public void addInformation(ItemStack item, EntityPlayer player, List<String> list, boolean bool) {
 		NBTTagList taglist =  EditUtil.getItemStackTag(item).getTagList("CommandList", NBT.TAG_STRING);
 
 		if (taglist.tagCount() > 0) {
@@ -130,7 +130,8 @@ public class ItemCommandItem extends Item {
 	}
 
 
-	@Override public boolean hasEffect(ItemStack item) {
+	@Override
+	public boolean hasEffect(ItemStack item) {
 		NBTTagList list = EditUtil.getItemStackTag(item).getTagList("CommandList", NBT.TAG_STRING);
 
 		if (list.tagCount() > 0){
@@ -152,7 +153,7 @@ public class ItemCommandItem extends Item {
 
 	@Override
 	@SideOnly(Side.CLIENT)
-	public void getSubItems(Item par1, CreativeTabs tabs, List list) {
+	public void getSubItems(Item par1, CreativeTabs tabs, List<ItemStack> list) {
 		list.add(new ItemStack(this, 1, 0));
 		list.add(new ItemStack(this, 1, 1));
 	}

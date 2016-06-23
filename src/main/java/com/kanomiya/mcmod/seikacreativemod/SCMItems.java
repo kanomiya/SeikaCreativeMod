@@ -2,6 +2,14 @@ package com.kanomiya.mcmod.seikacreativemod;
 
 import java.util.List;
 
+import com.kanomiya.mcmod.kanomiyacore.KanomiyaCore;
+import com.kanomiya.mcmod.kanomiyacore.util.GameRegistryUtils;
+import com.kanomiya.mcmod.seikacreativemod.item.ItemCommandItem;
+import com.kanomiya.mcmod.seikacreativemod.item.ItemEntityKiller;
+import com.kanomiya.mcmod.seikacreativemod.item.ItemPipette;
+import com.kanomiya.mcmod.seikacreativemod.item.ItemPosWand;
+import com.kanomiya.mcmod.seikacreativemod.item.ItemWorldGen;
+
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.item.ItemDoor;
 import net.minecraft.item.ItemStack;
@@ -10,14 +18,6 @@ import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.relauncher.Side;
 import net.minecraftforge.fml.relauncher.SideOnly;
-
-import com.kanomiya.mcmod.kanomiyacore.KanomiyaCore;
-import com.kanomiya.mcmod.kanomiyacore.util.GameRegistryUtils;
-import com.kanomiya.mcmod.seikacreativemod.item.ItemCommandItem;
-import com.kanomiya.mcmod.seikacreativemod.item.ItemEntityKiller;
-import com.kanomiya.mcmod.seikacreativemod.item.ItemPipette;
-import com.kanomiya.mcmod.seikacreativemod.item.ItemPosWand;
-import com.kanomiya.mcmod.seikacreativemod.item.ItemWorldGen;
 
 
 public class SCMItems {
@@ -41,7 +41,7 @@ public class SCMItems {
 		utils.registerItem(itemPipette = new ItemPipette(), "itemPipette", client);
 		utils.registerItem(itemBedrockDoor = new ItemDoor(SCMBlocks.blockBedrockDoor) {
 			@Override @SideOnly(Side.CLIENT)
-			public void addInformation(ItemStack stack, EntityPlayer player, List tooltip, boolean advanced) {
+			public void addInformation(ItemStack stack, EntityPlayer player, List<String> tooltip, boolean advanced) {
 				tooltip.add("(Texture: Acacia)");
 			}
 

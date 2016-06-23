@@ -1,5 +1,8 @@
 package com.kanomiya.mcmod.seikacreativemod.util;
 
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.item.ItemPipette;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.init.Blocks;
@@ -11,10 +14,8 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
 import net.minecraftforge.fluids.FluidStack;
-import net.minecraftforge.fluids.IFluidContainerItem;
-
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.item.ItemPipette;
+import net.minecraftforge.fluids.FluidUtil;
+import net.minecraftforge.fluids.capability.CapabilityFluidHandler;
 
 public class EditUtil {
 	protected static final IBlockState airState = Blocks.AIR.getDefaultState();
@@ -73,7 +74,7 @@ public class EditUtil {
 		if (stackIn != null) {
 			Item item = stackIn.getItem();
 			if (item instanceof ItemBlock) { return true; }
-			if (item instanceof IFluidContainerItem && ((IFluidContainerItem) item).getFluid(stackIn) != null) { return true; }
+			if (FluidUtil.getFluidContained(stackIn) != null) { return true; }
 			if (item instanceof ItemPipette)  { return ! getItemStackTag(stackIn).getCompoundTag("dataPool").hasNoTags(); }
 
 
@@ -87,11 +88,15 @@ public class EditUtil {
 			Item item = stackIn.getItem();
 			if (item instanceof ItemBlock) { return Block.getBlockFromItem(item).getStateFromMeta(stackIn.getMetadata()); }
 
-			if (item instanceof IFluidContainerItem) {
-				FluidStack fs = ((IFluidContainerItem) item).getFluid(stackIn);
-				if (fs != null)
-					return fs.getFluid().getBlock().getStateFromMeta(stackIn.getMetadata());
+			if (stackIn.hasCapability(CapabilityFluidHandler.FLUID_HANDLER_CAPABILITY, null)) {
+			    FluidStack fluidStack = FluidUtil.getFluidContained(stackIn);
+			    if (fluidStack != null)
+			    {
+	                return fluidStack.getFluid().getBlock().getStateFromMeta(stackIn.getMetadata());
+			    }
 			}
+
+
 
 			if (item instanceof ItemPipette) {
 				NBTTagCompound nbt = getItemStackTag(stackIn).getCompoundTag("dataPool");
@@ -114,13 +119,13 @@ public class EditUtil {
 		return false;
 	}
 
-	public static TileEntity getTileEntity(ItemStack stackIn) {
+	public static TileEntity getTileEntity(World worldIn, ItemStack stackIn) {
 		if (stackIn != null) {
 			Item item = stackIn.getItem();
 			if (item instanceof ItemPipette)  {
 				NBTTagCompound nbt = getItemStackTag(stackIn).getCompoundTag("dataPool").getCompoundTag("tileentity");
 
-				return TileEntity.create(nbt);
+				return TileEntity.func_190200_a(worldIn, nbt);
 			}
 
 		}

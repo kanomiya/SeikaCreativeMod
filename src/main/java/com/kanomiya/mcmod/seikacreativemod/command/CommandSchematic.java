@@ -5,6 +5,9 @@ import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
 
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+import com.kanomiya.mcmod.seikacreativemod.schematic.Schematic;
+
 import net.minecraft.command.CommandBase;
 import net.minecraft.command.CommandException;
 import net.minecraft.command.ICommandSender;
@@ -15,9 +18,6 @@ import net.minecraft.server.MinecraftServer;
 import net.minecraft.util.math.AxisAlignedBB;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
-
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-import com.kanomiya.mcmod.seikacreativemod.schematic.Schematic;
 
 public class CommandSchematic extends CommandBase {
 	protected static final int MISS_SCHEMATIC = 0;
@@ -74,7 +74,7 @@ public class CommandSchematic extends CommandBase {
 		case MISS_SCHEMATIC:
 			sender.addChatMessage(new TextComponentString("[HELP] Mode: load/test"));
 			sender.addChatMessage(new TextComponentString("[HELP] /schematic <Mode> <Filename> [x] [y] [z]"));
-			sender.addChatMessage(new TextComponentString("[HELP] Mode: save"));
+			sender.addChatMessage(new TextComponentString("[HELP] Mode: save/oldsave"));
 			sender.addChatMessage(new TextComponentString("[HELP] /schematic <Mode> <Filename> <x1> <y1> <z1> <x2> <y2> <z2>"));
 			break;
 
@@ -111,7 +111,7 @@ public class CommandSchematic extends CommandBase {
 				try {
 					x = parseDouble(pos.getX(), xyzplus[0], true);
 					y = parseDouble(pos.getY(), xyzplus[1], false);
-					x = parseDouble(pos.getZ(), xyzplus[2], true);
+					z = parseDouble(pos.getZ(), xyzplus[2], true);
 				} catch (NumberInvalidException e) {
 					e.printStackTrace(); return ;
 				}
@@ -143,7 +143,7 @@ public class CommandSchematic extends CommandBase {
 				try {
 					x = parseDouble(pos.getX(), xyzplus[0], true);
 					y = parseDouble(pos.getY(), xyzplus[1], false);
-					x = parseDouble(pos.getZ(), xyzplus[2], true);
+					z = parseDouble(pos.getZ(), xyzplus[2], true);
 				} catch (NumberInvalidException e) {
 					e.printStackTrace(); return ;
 				}
@@ -177,11 +177,11 @@ public class CommandSchematic extends CommandBase {
 			try {
 				x1 = parseDouble(pos.getX(), xyz1[0], true);
 				y1 = parseDouble(pos.getY(), xyz1[1], false);
-				x1 = parseDouble(pos.getZ(), xyz1[2], true);
+				z1 = parseDouble(pos.getZ(), xyz1[2], true);
 
 				x2 = parseDouble(pos.getX(), xyz2[0], true);
 				y2 = parseDouble(pos.getY(), xyz2[1], false);
-				x2 = parseDouble(pos.getZ(), xyz2[2], true);
+				z2 = parseDouble(pos.getZ(), xyz2[2], true);
 
 			} catch (NumberInvalidException e) {
 				e.printStackTrace(); return ;
