@@ -1,0 +1,7 @@
+{
+    "parent": "block/door_bottom_rh",
+    "textures": {
+        "bottom": "com.kanomiya.mcmod.seikacreativemod:blocks/blockBedrockDoor_lower",
+        "top": "com.kanomiya.mcmod.seikacreativemod:blocks/blockBedrockDoor_upper"
+    }
+}

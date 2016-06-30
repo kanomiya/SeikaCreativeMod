@@ -16,9 +16,12 @@ import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityEditMachine;
 import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityFill;
 import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityPreparation;
 
+import net.minecraft.block.BlockDoor;
+import net.minecraft.client.renderer.block.statemap.StateMap;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemBlock;
 import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.client.model.ModelLoader;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
 import net.minecraftforge.fml.common.registry.GameRegistry;
 
@@ -75,6 +78,8 @@ public class SCMBlocks {
             simpleRegister.accept(Item.getItemFromBlock(blockBedrockButton));
             //simpleRegister.accept(Item.getItemFromBlock(blockBedrockDoor));
             simpleRegister.accept(Item.getItemFromBlock(blockEditMachine));
+
+            ModelLoader.setCustomStateMapper(blockBedrockDoor, (new StateMap.Builder()).ignore(BlockDoor.POWERED).build());
 
         }
 

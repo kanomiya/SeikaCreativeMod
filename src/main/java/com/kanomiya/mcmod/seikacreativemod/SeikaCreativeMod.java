@@ -4,7 +4,6 @@ import java.io.File;
 
 import org.apache.logging.log4j.Logger;
 
-import com.kanomiya.mcmod.kanomiyacore.KanomiyaCore;
 import com.kanomiya.mcmod.seikacreativemod.command.CommandKillPlus;
 import com.kanomiya.mcmod.seikacreativemod.command.CommandSchematic;
 import com.kanomiya.mcmod.seikacreativemod.gui.GuiHandler;
@@ -48,8 +47,6 @@ public class SeikaCreativeMod {
 	public static boolean ENABLEDBRIGHTNESS;
 
 	public static Logger logger;
-
-	public static KanomiyaCore core;
 
 	@EventHandler
 	public void preInit(FMLPreInitializationEvent event)

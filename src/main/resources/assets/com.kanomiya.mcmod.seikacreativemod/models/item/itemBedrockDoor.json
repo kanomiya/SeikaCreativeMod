@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "items/door_acacia"
+        "layer0": "com.kanomiya.mcmod.seikacreativemod:items/itemBedrockDoor"
     },
     "display": {
         "thirdperson": {
