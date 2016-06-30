@@ -1,0 +1,8 @@
+{
+	"parent": "block/cube_bottom_top",
+	"textures": {
+		"side": "com.kanomiya.mcmod.seikacreativemod:blocks/blockFill_side",
+		"top": "com.kanomiya.mcmod.seikacreativemod:blocks/blockFill_top",
+		"bottom": "com.kanomiya.mcmod.seikacreativemod:blocks/blockFill_bottom"
+	}
+}

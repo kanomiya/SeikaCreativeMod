@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "seikacreativemod:items/itemEntityKiller"
+        "layer0": "com.kanomiya.mcmod.seikacreativemod:items/itemPosWand"
     },
     "display": {
         "thirdperson": {

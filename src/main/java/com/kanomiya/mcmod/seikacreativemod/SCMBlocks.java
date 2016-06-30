@@ -1,12 +1,8 @@
 package com.kanomiya.mcmod.seikacreativemod;
 
-import net.minecraftforge.fml.common.event.FMLInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.minecraftforge.fml.common.registry.GameRegistry;
+import static com.kanomiya.mcmod.kanomiyacore.util.KCUtils.Client.*;
+import static com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod.*;
 
-import com.kanomiya.mcmod.kanomiyacore.KanomiyaCore;
-import com.kanomiya.mcmod.kanomiyacore.util.GameRegistryUtils;
 import com.kanomiya.mcmod.seikacreativemod.block.BlockBedrockButton;
 import com.kanomiya.mcmod.seikacreativemod.block.BlockBedrockDoor;
 import com.kanomiya.mcmod.seikacreativemod.block.BlockBedrockGlass;
@@ -20,46 +16,69 @@ import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityEditMachine;
 import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityFill;
 import com.kanomiya.mcmod.seikacreativemod.tileentity.TileEntityPreparation;
 
+import net.minecraft.item.Item;
+import net.minecraft.item.ItemBlock;
+import net.minecraft.util.ResourceLocation;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.minecraftforge.fml.common.registry.GameRegistry;
+
 
 public class SCMBlocks {
-	public static BlockPreparation blockPreparation;
-	public static BlockFill blockFill;
-	public static BlockSuperSponge blockSuperSponge;
-	public static BlockBedrockLight blockBedrockLight;
-	public static BlockBedrockGlass blockBedrockGlass;
-	public static BlockBedrockLever blockBedrockLever;
-	public static BlockBedrockButton blockBedrockButton;
-	public static BlockBedrockDoor blockBedrockDoor;
-	public static BlockEditMachine blockEditMachine;
-	// public static Block block;
+    public static BlockPreparation blockPreparation = new BlockPreparation();
+    public static BlockFill blockFill = new BlockFill();
+    public static BlockSuperSponge blockSuperSponge = new BlockSuperSponge();
+    public static BlockBedrockLight blockBedrockLight = new BlockBedrockLight();
+    public static BlockBedrockGlass blockBedrockGlass = new BlockBedrockGlass();
+    public static BlockBedrockLever blockBedrockLever = new BlockBedrockLever();
+    public static BlockBedrockButton blockBedrockButton = new BlockBedrockButton();
+    public static BlockBedrockDoor blockBedrockDoor = new BlockBedrockDoor();
+    public static BlockEditMachine blockEditMachine = new BlockEditMachine();
 
 
-	public static void preInit(FMLPreInitializationEvent event, KanomiyaCore core) {
-		final boolean client = event.getSide().isClient();
+    public static void preInit(FMLPreInitializationEvent event)
+    {
+        GameRegistry.register(blockPreparation, new ResourceLocation(MODID, "blockPreparation"));
+        GameRegistry.register(blockFill, new ResourceLocation(MODID, "blockFill"));
+        GameRegistry.register(blockSuperSponge, new ResourceLocation(MODID, "blockSuperSponge"));
+        GameRegistry.register(blockBedrockLight, new ResourceLocation(MODID, "blockBedrockLight"));
+        GameRegistry.register(blockBedrockGlass, new ResourceLocation(MODID, "blockBedrockGlass"));
+        GameRegistry.register(blockBedrockLever, new ResourceLocation(MODID, "blockBedrockLever"));
+        GameRegistry.register(blockBedrockButton, new ResourceLocation(MODID, "blockBedrockButton"));
+        GameRegistry.register(blockBedrockDoor, new ResourceLocation(MODID, "blockBedrockDoor"));
+        GameRegistry.register(blockEditMachine, new ResourceLocation(MODID, "blockEditMachine"));
 
-		GameRegistryUtils utils = core.getGameRegistryUtils();
+        GameRegistry.register(new ItemBlock(blockPreparation), blockPreparation.getRegistryName());
+        GameRegistry.register(new ItemBlock(blockFill), blockFill.getRegistryName());
+        GameRegistry.register(new ItemBlock(blockSuperSponge), blockSuperSponge.getRegistryName());
+        GameRegistry.register(new ItemBlock(blockBedrockLight), blockBedrockLight.getRegistryName());
+        GameRegistry.register(new ItemBlock(blockBedrockGlass), blockBedrockGlass.getRegistryName());
+        GameRegistry.register(new ItemBlock(blockBedrockLever), blockBedrockLever.getRegistryName());
+        GameRegistry.register(new ItemBlock(blockBedrockButton), blockBedrockButton.getRegistryName());
+        //GameRegistry.register(new ItemBlock(blockBedrockDoor), blockBedrockDoor.getRegistryName());
+        GameRegistry.register(new ItemBlock(blockEditMachine), blockEditMachine.getRegistryName());
 
-		utils.registerBlock(blockPreparation = new BlockPreparation(), "blockPreparation", client);
-		utils.registerBlock(blockFill = new BlockFill(), "blockFill", client);
-		utils.registerBlock(blockSuperSponge = new BlockSuperSponge(), "blockSuperSponge", client);
-		utils.registerBlock(blockBedrockLight = new BlockBedrockLight(), "blockBedrockLight", client);
-		utils.registerBlock(blockBedrockGlass = new BlockBedrockGlass(), "blockBedrockGlass", client);
-		utils.registerBlock(blockBedrockLever = new BlockBedrockLever(), "blockBedrockLever", client);
-		utils.registerBlock(blockBedrockButton = new BlockBedrockButton(), "blockBedrockButton", client);
-		utils.registerBlock(blockBedrockDoor = new BlockBedrockDoor(), "blockBedrockDoor", client);
-		utils.registerBlock(blockEditMachine = new BlockEditMachine(), "blockEditMachine", client);
-		// utils.registerBlock(block = new Block(), "block", client);
+        // TileEntity
+        GameRegistry.registerTileEntity(TileEntityFill.class, MODID+":tileFill");
+        GameRegistry.registerTileEntity(TileEntityPreparation.class, MODID+":tilePreparation");
 
-		// TileEntity
-		GameRegistry.registerTileEntity(TileEntityFill.class, "tileentityFill");
-		GameRegistry.registerTileEntity(TileEntityPreparation.class, "tileentityPreparation");
+        GameRegistry.registerTileEntity(TileEntityEditMachine.class, MODID+":tileEditMachine");
 
-		GameRegistry.registerTileEntity(TileEntityEditMachine.class, "tileentityEditMachine");
 
-	}
+        if (event.getSide().isClient())
+        {
+            simpleRegister.accept(Item.getItemFromBlock(blockPreparation));
+            simpleRegister.accept(Item.getItemFromBlock(blockFill));
+            simpleRegister.accept(Item.getItemFromBlock(blockSuperSponge));
+            simpleRegister.accept(Item.getItemFromBlock(blockBedrockLight));
+            simpleRegister.accept(Item.getItemFromBlock(blockBedrockGlass));
+            simpleRegister.accept(Item.getItemFromBlock(blockBedrockLever));
+            simpleRegister.accept(Item.getItemFromBlock(blockBedrockButton));
+            //simpleRegister.accept(Item.getItemFromBlock(blockBedrockDoor));
+            simpleRegister.accept(Item.getItemFromBlock(blockEditMachine));
 
-	public static void init(FMLInitializationEvent event, KanomiyaCore core) {  }
-	public static void postInit(FMLPostInitializationEvent event, KanomiyaCore core) {  }
+        }
+
+    }
 
 
 }

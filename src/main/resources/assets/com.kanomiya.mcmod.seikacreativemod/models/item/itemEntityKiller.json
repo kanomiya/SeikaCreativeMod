@@ -1,7 +1,7 @@
 {
     "parent": "builtin/generated",
     "textures": {
-        "layer0": "seikacreativemod:items/itemPipette"
+        "layer0": "com.kanomiya.mcmod.seikacreativemod:items/itemEntityKiller"
     },
     "display": {
         "thirdperson": {

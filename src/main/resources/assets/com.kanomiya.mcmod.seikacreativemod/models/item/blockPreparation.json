@@ -1,5 +1,5 @@
 {
-    "parent": "seikacreativemod:block/blockPreparation",
+    "parent": "com.kanomiya.mcmod.seikacreativemod:block/blockPreparation",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],

@@ -1,21 +1,13 @@
 [
 {
-	"modinfoversion": 2,
-	"modid": "seikacreativemod",
-	"name": "Seika Creative Mod",
-	"description": "Seika Creative Mod",
-	"version": "0.1.1",
-	"mcversion": "1.9",
-	"url": "http://kanomiya.com/",
-	"updateUrl": "",
-	"authorList": ["Kanomiya"],
-	"credits": "",
-	"logoFile": "",
-	"screenshots": [],
-	"parent": "",
-	"requiredMods": ["kanomiyacore"],
-	"dependencies": [],
-	"dependants": [],
-	"useDependencyInformation": "true"
+  "modid": "com.kanomiya.mcmod.seikacreativemod",
+  "name": "Seika Creative Mod",
+  "description": "Seika Creative Mod",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "https://github.com/kanomiya/SeikaCreativeMod",
+  "authorList": ["Kanomiya"],
+  "requiredMods": ["com.kanomiya.mcmod.kanomiyacore"],
+  "useDependencyInformation": "true"
 }
 ]

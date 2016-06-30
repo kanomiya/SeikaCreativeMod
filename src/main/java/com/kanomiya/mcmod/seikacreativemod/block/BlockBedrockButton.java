@@ -1,5 +1,7 @@
 package com.kanomiya.mcmod.seikacreativemod.block;
 
+import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
+
 import net.minecraft.block.Block;
 import net.minecraft.block.BlockButton;
 import net.minecraft.block.SoundType;
@@ -12,8 +14,6 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.IBlockAccess;
 import net.minecraft.world.World;
 
-import com.kanomiya.mcmod.seikacreativemod.SeikaCreativeMod;
-
 public class BlockBedrockButton extends BlockButton {
 
 	public BlockBedrockButton() {
@@ -23,7 +23,7 @@ public class BlockBedrockButton extends BlockButton {
 
 		setResistance(6000000.0F);
 		setSoundType(SoundType.STONE);
-		setUnlocalizedName("blockButtonBedrock");
+		setUnlocalizedName("blockBedrockButton");
 		setCreativeTab(SeikaCreativeMod.tabSeika);
 		disableStats();
 	}

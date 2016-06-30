@@ -1,9 +1,9 @@
 {
-    "parent": "seikacreativemod:block/blockBedrockButton_inventory",
+    "parent": "com.kanomiya.mcmod.seikacreativemod:block/blockEditMachine",
     "display": {
         "thirdperson": {
             "rotation": [ 10, -45, 170 ],
-            "translation": [ 0, 1, -1.75 ],
+            "translation": [ 0, 1.5, -2.75 ],
             "scale": [ 0.375, 0.375, 0.375 ]
         }
     }

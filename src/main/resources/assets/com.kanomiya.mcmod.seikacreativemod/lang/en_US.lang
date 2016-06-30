@@ -1,5 +1,5 @@
 ###--- English ---###
-itemGroup.seikacreativemod=Seika Creative Mod
+itemGroup.com.kanomiya.mcmod.seikacreativemod=Seika Creative Mod
 tile.blockPreparation.name=Preparation Machine
 tile.blockFill.name=Filler
 tile.blockEditMachine.name=Editer
@@ -15,5 +15,5 @@ item.itemEntityPicker.name=Entity Picker
 item.itemWorldGen.name=Trees Spawner
 item.itemPipette.name=Pipette
 item.itemPosWand.name=Position Recorder
-item.itemBedrockDoor.name=Bedrock Door
-entity.seikacreativemod.entitySandBag.name=SandBag
+item.blockBedrockDoor.name=Bedrock Door
+entity.com.kanomiya.mcmod.seikacreativemod.entitySandBag.name=SandBag

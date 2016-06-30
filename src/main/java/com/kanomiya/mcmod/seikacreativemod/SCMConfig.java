@@ -1,15 +1,14 @@
 package com.kanomiya.mcmod.seikacreativemod;
 
-import net.minecraftforge.common.config.Configuration;
-import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-
-import com.kanomiya.mcmod.kanomiyacore.KanomiyaCore;
 import com.kanomiya.mcmod.seikacreativemod.block.BlockFill;
 import com.kanomiya.mcmod.seikacreativemod.block.BlockSuperSponge;
 
+import net.minecraftforge.common.config.Configuration;
+import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+
 public class SCMConfig {
 
-	public static void preInit(FMLPreInitializationEvent event, KanomiyaCore core) {
+	public static void preInit(FMLPreInitializationEvent event) {
 		Configuration config = new Configuration(event.getSuggestedConfigurationFile());
 
 		try {
