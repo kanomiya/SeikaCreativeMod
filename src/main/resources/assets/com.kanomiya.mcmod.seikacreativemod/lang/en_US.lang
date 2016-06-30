@@ -15,5 +15,5 @@ item.itemEntityPicker.name=Entity Picker
 item.itemWorldGen.name=Trees Spawner
 item.itemPipette.name=Pipette
 item.itemPosWand.name=Position Recorder
-item.blockBedrockDoor.name=Bedrock Door
+item.itemBedrockDoor.name=Bedrock Door
 entity.com.kanomiya.mcmod.seikacreativemod.entitySandBag.name=SandBag

@@ -15,5 +15,5 @@ item.itemEntityPicker.name=生体捕獲の杖
 item.itemWorldGen_0.name=木生成の杖
 item.itemPipette.name=ピペット
 item.itemPosWand.name=座標記録の杖
-item.blockBedrockDoor.name=岩盤のドア
+item.itemBedrockDoor.name=岩盤のドア
 entity.com.kanomiya.mcmod.seikacreativemod.entitySandBag.name=サンドバッグ
